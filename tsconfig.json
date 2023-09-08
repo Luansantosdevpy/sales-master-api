@@ -2,20 +2,15 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,  
-    "target": "es2016",
+    "target": "es2018",
     "module": "commonjs",
     "rootDir": "./src",
-    "types": ["node", "reflect-metadata", "jest"],
+    "types": ["node", "reflect-metadata"],
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
-  },
-  "exclude": [
-    "tests",
-    "jest.config.ts",
-    "jest-e2e.config.ts"
-  ]
+  }
 }
