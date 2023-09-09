@@ -5,6 +5,7 @@ import { container } from 'tsyringe';
 import { Server } from 'http';
 import dependencyContainer from './dependencyContainer';
 import Logger from './infrastructure/log/logger';
+import routes from './api/routes/routes';
 
 export default class App {
   public express: express.Application = express();
@@ -44,6 +45,6 @@ export default class App {
   };
 
   private routes = async (): Promise<void> => {
-    //
+    this.express.use(await routes());
   };
 }
