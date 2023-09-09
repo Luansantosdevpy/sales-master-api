@@ -1,0 +1,46 @@
+---
+version: '3.8'
+
+services:
+  sales_master_api:
+    container_name: sales_master_api
+    image: node:18.12.1-alpine
+    restart: always
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: sh -c 'yarn install && yarn build && yarn dev'
+    ports:
+      - '4000:4000'
+    environment:
+      APP_NAME: ${APP_NAME}
+      APP_ENVIRONMENT: ${APP_ENVIRONMENT}
+      APP_PORT: ${APP_PORT}
+      DB_POSTGRES_HOST: ${DB_POSTGRES_HOST}
+      DB_POSTGRES_PORT: ${DB_POSTGRES_PORT}
+      DB_POSTGRES_NAME: '${DB_POSTGRES_NAME}'
+      DB_POSTGRES_USER: ${DB_POSTGRES_USER}
+      DB_POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks:
+      - prv-net
+
+  postgres:
+    container_name: sales_database
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_POSTGRES_NAME}
+      POSTGRES_USER: ${DB_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+    ports:
+      - 5436:5432
+    networks:
+      - prv-net
+
+networks:
+  prv-net:
+    driver: bridge
