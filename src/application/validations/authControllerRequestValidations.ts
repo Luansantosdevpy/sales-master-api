@@ -25,6 +25,18 @@ const registerUserRequestValidation: ValidationChain[] = [
     }),
 ];
 
+const loginUserRequestValidation: ValidationChain[] = [
+  check('email')
+  .notEmpty()
+  .withMessage("Property 'email' cannot be empty."),
+
+  check('password')
+  .notEmpty()
+  .withMessage("Property 'password' cannot be empty.")
+  .isString()
+];
+
 export {
-    registerUserRequestValidation
+    registerUserRequestValidation,
+    loginUserRequestValidation
 };

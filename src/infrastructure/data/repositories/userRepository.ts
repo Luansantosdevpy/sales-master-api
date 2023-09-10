@@ -41,4 +41,13 @@ export default class UserRepository implements UserRepositoryInterface {
     });
     return user;
   };
+
+  public findByEmail = async (email: string): Promise<User | null> => {
+    Logger.debug(`UserRepository - findByEmail - Email: ${email}`);
+    return User.findOne({
+      where: {
+        email
+      }
+    });
+  };
 }
