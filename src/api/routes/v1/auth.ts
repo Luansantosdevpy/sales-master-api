@@ -10,5 +10,8 @@ export default async (): Promise<Router> => {
   router.post('/register',validations.registerUserRequestValidation,
   authController.register);
 
+  router.post('/login', validations.loginUserRequestValidation,
+  authController.login);
+
   return router;
 };
