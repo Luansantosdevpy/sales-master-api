@@ -1,5 +1,4 @@
 import { injectable } from 'tsyringe';
-import Sequelize, { Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import Logger from '../../log/logger';
 import Client from '../../../domain/models/Client';
@@ -8,7 +7,7 @@ import ClientRepositoryInterface from '../../../domain/interfaces/repositories/c
 @injectable()
 export default class ClientRepository implements ClientRepositoryInterface {
   public save = async (newClient: Partial<Client>): Promise<Client> => {
-    Logger.debug(`UserRepository - create - execute [newClient: ${newClient}]`);
+    Logger.debug(`ClientRepository - create - execute [newClient: ${newClient}]`);
     const client = Client.create({
       id: uuidv4(),
       name: newClient.name,
