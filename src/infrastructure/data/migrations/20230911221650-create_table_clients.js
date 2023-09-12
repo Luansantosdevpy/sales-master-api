@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) =>
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('clients', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -19,30 +19,50 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      phone_number: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       cpf: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
-      password: {
+      address: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      confirm_password: {
+      postal_code: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      created_at: {
+      address_number: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      complement: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      city: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      uf: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('now()')
       },
-      updated_at: {
+      updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('now()')
       }
     }),
   down: async (queryInterface, Sequelize) =>
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('clients')
 };

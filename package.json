@@ -8,6 +8,7 @@
     "dev": "yarn ts-node-dev --clear --inspect --transpile-only --ignore node_modules -r dotenv/config src/server.ts service:",
     "migration:create": "sequelize migration:generate --name",
     "migration:run": "sequelize db:migrate",
+    "ci:lint:check": "prettier --check src && yarn eslint src",
     "start": "node ./dist/server.js"
   },
   "author": "Luan Santos",
@@ -39,6 +40,10 @@
     "@types/node": "^20.6.0",
     "@types/sequelize": "^4.28.15",
     "@types/uuid": "^9.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "prettier": "^3.0.3",
     "sequelize-cli": "^6.6.1",
     "typescript": "^5.2.2"
   }
