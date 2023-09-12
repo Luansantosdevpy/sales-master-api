@@ -27,16 +27,11 @@ class Database {
 
   public testConnections = async (): Promise<void> => {
     try {
-      await Promise.all([
-        this.connection.authenticate()
-      ]);
+      await Promise.all([this.connection.authenticate()]);
 
       Logger.debug('[DATABASE] - Connections successfully established.');
     } catch (error) {
-      Logger.error(
-        '[DATABASE] - Unable to connect to database:',
-        error
-      );
+      Logger.error('[DATABASE] - Unable to connect to database:', error);
       throw error;
     }
   };

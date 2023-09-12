@@ -7,7 +7,6 @@ import UserRepositoryInterface from '../../../domain/interfaces/repositories/use
 
 @injectable()
 export default class UserRepository implements UserRepositoryInterface {
-
   public exists = async (email: string, id?: string): Promise<boolean> => {
     Logger.debug(`UserRepository - exists - execute [email: ${email}]`);
     const where: any = {
@@ -37,7 +36,7 @@ export default class UserRepository implements UserRepositoryInterface {
       email: newUser.email,
       cpf: newUser.cpf,
       password: newUser.password,
-      confirm_password: newUser.confirm_password,
+      confirm_password: newUser.confirm_password
     });
     return user;
   };

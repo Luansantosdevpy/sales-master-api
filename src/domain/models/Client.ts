@@ -9,7 +9,7 @@ class Client extends Model {
   public email: string;
 
   public phone_number: string;
-    
+
   public cpf: string;
 
   public address: string;

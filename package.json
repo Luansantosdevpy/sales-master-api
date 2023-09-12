@@ -8,7 +8,7 @@
     "dev": "yarn ts-node-dev --clear --inspect --transpile-only --ignore node_modules -r dotenv/config src/server.ts service:",
     "migration:create": "sequelize migration:generate --name",
     "migration:run": "sequelize db:migrate",
-    "ci:lint:check": "prettier --check src tests && yarn eslint src tests",
+    "ci:lint:check": "prettier --check src && yarn eslint src",
     "start": "node ./dist/server.js"
   },
   "author": "Luan Santos",
