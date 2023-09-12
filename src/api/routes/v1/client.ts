@@ -7,8 +7,11 @@ export default async (): Promise<Router> => {
   const router = Router();
   const clientController = container.resolve(ClientController);
 
-  router.post('/create', validations.createClienteRequestValidation,
-  clientController.create);
+  router.post(
+    '/create',
+    validations.createClienteRequestValidation,
+    clientController.create
+  );
 
   router.get('/', clientController.findAll);
   router.get(

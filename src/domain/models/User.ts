@@ -7,11 +7,11 @@ class User extends Model {
   public name: string;
 
   public email: string;
-    
+
   public cpf: string;
-    
+
   public password: string;
-    
+
   public confirm_password: string;
 
   public createdAt?: Date | string;

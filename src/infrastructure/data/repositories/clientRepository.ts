@@ -7,7 +7,9 @@ import ClientRepositoryInterface from '../../../domain/interfaces/repositories/c
 @injectable()
 export default class ClientRepository implements ClientRepositoryInterface {
   public save = async (newClient: Partial<Client>): Promise<Client> => {
-    Logger.debug(`ClientRepository - create - execute [newClient: ${newClient}]`);
+    Logger.debug(
+      `ClientRepository - create - execute [newClient: ${newClient}]`
+    );
     const client = Client.create({
       id: uuidv4(),
       name: newClient.name,
@@ -83,9 +85,9 @@ export default class ClientRepository implements ClientRepositoryInterface {
   public findById = async (id: string): Promise<Client | null> => {
     Logger.debug(`ClientRepository - findById - execute [id: ${id}]`);
     return Client.findOne({
-        where: {
-           id
-        }
+      where: {
+        id
+      }
     });
   };
 }
