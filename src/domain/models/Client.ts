@@ -9,7 +9,7 @@ class Client extends Model {
   public email: string;
 
   public phone_number: string;
-    
+
   public cpf: string;
 
   public address: string;
@@ -49,12 +49,10 @@ Client.init(
     city: Sequelize.STRING,
     uf: Sequelize.STRING,
     createdAt: {
-      type: Sequelize.DATE,
-      field: 'created_at'
+      type: Sequelize.DATE
     },
     updatedAt: {
-      type: Sequelize.DATE,
-      field: 'updated_at'
+      type: Sequelize.DATE
     }
   },
   {
