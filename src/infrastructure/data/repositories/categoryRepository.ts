@@ -30,7 +30,7 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
   public findAll = async (): Promise<Category[]> => {
     Logger.debug('CategoryRepository - findAll - execute');
     return Category.findAll({
-      order: [['name', 'ASC']]
+      order: [['category_name', 'ASC']]
     });
   };
 
