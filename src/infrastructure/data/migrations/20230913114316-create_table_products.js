@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async (queryInterface, Sequelize) => await queryInterface.createTable('clients', {
+  up: async (queryInterface, Sequelize) => await queryInterface.createTable('products', {
     id: {
       type: Sequelize.UUID,
       primaryKey: true,
@@ -11,49 +11,48 @@ module.exports = {
     },
     name: {
       type: Sequelize.STRING,
-      allowNull: false
-    },
-    email: {
-      type: Sequelize.STRING,
       allowNull: false,
       unique: true
     },
-    phone_number: {
+    description: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
-    cpf: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
-    },
-    address: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    postal_code: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    address_number: {
+    price: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    complement: {
+    productStock: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    sku: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    province: {
+    categoryId: {
+      type: Sequelize.UUID,
+      allowNull: false,
+      references: {
+        model: 'categories',
+        key: 'id'
+      }
+    },
+    provider: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    city: {
-      type: Sequelize.STRING,
+    active: {
+      type: Sequelize.BOOLEAN,
       allowNull: false
     },
-    uf: {
+    image: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: true
+    },
+    attributes: {
+      type: Sequelize.STRING,
+      allowNull: true
     },
     createdAt: {
       type: Sequelize.DATE,
@@ -66,5 +65,5 @@ module.exports = {
       defaultValue: Sequelize.literal('now()')
     }
   }),
-  down: async (queryInterface, Sequelize) => await queryInterface.dropTable('clients')
+  down: async (queryInterface, Sequelize) => await queryInterface.dropTable('products')
 };
