@@ -19,19 +19,19 @@ module.exports = {
       allowNull: true
     },
     price: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false
     },
-    product_stock: {
-      type: Sequelize.STRING,
+    productStock: {
+      type: Sequelize.INTEGER,
       allowNull: false
     },
     sku: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    category: {
-      type: Sequelize.STRING,
+    categoryId: {
+      type: Sequelize.UUID,
       allowNull: false,
       references: {
         model: 'categories',
