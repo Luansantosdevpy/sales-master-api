@@ -12,10 +12,10 @@ class CategoryService {
     ) {}
 
     async create(category: Category): Promise<Category> {
-        Logger.debug('CategoryService - create - validate email');
-        const emailExists = await this.categoryRepository.findByName(category.category_name);
+        Logger.debug('CategoryService - create - validate category name');
+        const categoryExists = await this.categoryRepository.findByName(category.category_name);
 
-        if (emailExists) {
+        if (categoryExists) {
         throw new ValidationError(
           `The name '${category.category_name}' is already in use.`
         );
