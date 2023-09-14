@@ -22,7 +22,7 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
     Logger.debug(`CategoryRepository - findByName - name: ${name}`);
     return Category.findOne({
       where: {
-        name
+        category_name: name
       }
     });
   };
