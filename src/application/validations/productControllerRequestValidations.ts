@@ -7,9 +7,7 @@ const createProductRequestValidation: ValidationChain[] = [
     .isString()
     .isLength({ min: 3 }),
 
-  check('price')
-    .notEmpty()
-    .withMessage("Property 'price' cannot be empty."),
+  check('price').notEmpty().withMessage("Property 'price' cannot be empty."),
 
   check('sku')
     .notEmpty()
@@ -36,15 +34,13 @@ const findProductRequestValidations: ValidationChain[] = [
 ];
 
 const updateProductRequestValidations: ValidationChain[] = [
-    check('name')
+  check('name')
     .notEmpty()
     .withMessage("Property 'name' cannot be empty.")
     .isString()
     .isLength({ min: 3 }),
 
-  check('price')
-    .notEmpty()
-    .withMessage("Property 'price' cannot be empty."),
+  check('price').notEmpty().withMessage("Property 'price' cannot be empty."),
 
   check('sku')
     .notEmpty()

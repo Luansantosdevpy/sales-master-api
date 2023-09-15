@@ -19,13 +19,19 @@ class ProductService {
     const emailExists = await this.productRepository.findByName(product.name);
 
     if (emailExists) {
-      throw new ValidationError(`The name '${product.name}' is already in use.`);
+      throw new ValidationError(
+        `The name '${product.name}' is already in use.`
+      );
     }
 
-    const verifyCategoryId = await this.categoryService.findById(product.categoryId);
+    const verifyCategoryId = await this.categoryService.findById(
+      product.categoryId
+    );
 
     if (verifyCategoryId === null) {
-      throw new ValidationError(`The category id '${product.categoryId}' don't exists.`);
+      throw new ValidationError(
+        `The category id '${product.categoryId}' don't exists.`
+      );
     }
 
     Logger.debug('ProductService - create - call productRepository.save');
@@ -46,7 +52,7 @@ class ProductService {
 
     Logger.debug('ProductService - update - validate Client name');
     const productExists = await this.productRepository.findByName(
-        updatedProduct.name!
+      updatedProduct.name!
     );
 
     if (productExists) {

@@ -32,9 +32,12 @@ export default async (container: DependencyContainer): Promise<void> => {
     useClass: ClientService
   });
 
-  container.register<CategoryRepositoryInterface>('CategoryRepositoryInterface', {
-    useClass: CategoryRepository
-  });
+  container.register<CategoryRepositoryInterface>(
+    'CategoryRepositoryInterface',
+    {
+      useClass: CategoryRepository
+    }
+  );
 
   container.register<CategoryService>('CategoryService', {
     useClass: CategoryService
