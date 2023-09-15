@@ -41,8 +41,8 @@ Product.init(
     price: Sequelize.NUMBER,
     productStock: Sequelize.NUMBER,
     sku: Sequelize.STRING,
-    categoryId: { 
-        type: Sequelize.UUID 
+    categoryId: {
+      type: Sequelize.UUID
     },
     provider: Sequelize.STRING,
     active: Sequelize.BOOLEAN,
@@ -62,8 +62,8 @@ Product.init(
 );
 
 Product.belongsTo(Category, {
-    foreignKey: 'categoryId',
-    as: 'category'
-  });
+  foreignKey: 'categoryId',
+  as: 'category'
+});
 
 export default Product;

@@ -7,7 +7,9 @@ import Category from '../../../domain/models/Category';
 @injectable()
 export default class CategoryRepository implements CategoryRepositoryInterface {
   public save = async (newCategory: Partial<Category>): Promise<Category> => {
-    Logger.debug(`CategoryRepository - create - execute [newCategory: ${newCategory}]`);
+    Logger.debug(
+      `CategoryRepository - create - execute [newCategory: ${newCategory}]`
+    );
     const category = Category.create({
       id: uuidv4(),
       category_name: newCategory.category_name,
@@ -69,9 +71,9 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
   public findById = async (id: string): Promise<Category | null> => {
     Logger.debug(`CategoryRepository - findById - execute [id: ${id}]`);
     return Category.findOne({
-        where: {
-           id
-        }
+      where: {
+        id
+      }
     });
   };
 }
