@@ -12,6 +12,9 @@ import CategoryService from './application/services/categoryService';
 import ProductRepositoryInterface from './domain/interfaces/repositories/productRepositoryInterface';
 import ProductRepository from './infrastructure/data/repositories/productRepository';
 import ProductService from './application/services/productService';
+import SalesRepositoryInterface from './domain/interfaces/repositories/saleRepositoryInterface';
+import SalesRepository from './infrastructure/data/repositories/saleRepository';
+import SaleService from './application/services/saleService';
 
 export default async (container: DependencyContainer): Promise<void> => {
   Logger.debug('Dependency container initializing...');
@@ -49,6 +52,14 @@ export default async (container: DependencyContainer): Promise<void> => {
 
   container.register<ProductService>('ProductService', {
     useClass: ProductService
+  });
+
+  container.register<SalesRepositoryInterface>('SalesRepositoryInterface', {
+    useClass: SalesRepository
+  });
+
+  container.register<SaleService>('SaleService', {
+    useClass: SaleService
   });
 
   Logger.debug('Dependency container initialized!');
