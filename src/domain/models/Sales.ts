@@ -11,7 +11,7 @@ class Sale extends Model {
 
   public total: number;
 
-  public items: object[];
+  public itensSale: string[];
 
   public createdAt?: Date | string;
 
@@ -29,7 +29,7 @@ Sale.init(
       type: Sequelize.UUID,
     },
     total: Sequelize.DECIMAL(10, 2),
-    items: {
+    itensSale: {
       type: Sequelize.JSONB,
       defaultValue: [],
     },

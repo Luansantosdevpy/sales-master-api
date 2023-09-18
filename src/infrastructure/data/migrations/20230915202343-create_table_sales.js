@@ -12,7 +12,7 @@ module.exports = {
       date: {
         type: Sequelize.DATE
       },
-      client: {
+      clientId: {
         type: Sequelize.UUID,
         references: {
           model: 'clients',

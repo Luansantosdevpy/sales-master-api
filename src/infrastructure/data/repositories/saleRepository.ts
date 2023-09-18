@@ -16,7 +16,7 @@ export default class SalesRepository implements SalesRepositoryInterface {
       date: new Date(),
       clientId: newSale.clientId,
       total: newSale.total,
-      items: [newSale.items]
+      itensSale: [newSale.itensSale]
     });
     return sale;
   };
@@ -49,7 +49,7 @@ export default class SalesRepository implements SalesRepositoryInterface {
         date: new Date(),
         clientId: updatedSale.clientId,
         total: updatedSale.total,
-        items: [updatedSale.items],
+        itensSale: [updatedSale.itensSale],
         updatedAt: new Date()
       },
       {
