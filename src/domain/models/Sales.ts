@@ -22,33 +22,33 @@ Sale.init(
   {
     id: {
       type: Sequelize.STRING,
-      primaryKey: true,
+      primaryKey: true
     },
     date: Sequelize.DATE,
     clientId: {
-      type: Sequelize.UUID,
+      type: Sequelize.UUID
     },
     total: Sequelize.DECIMAL(10, 2),
     itensSale: {
       type: Sequelize.JSONB,
-      defaultValue: [],
+      defaultValue: []
     },
     createdAt: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATE
     },
     updatedAt: {
-      type: Sequelize.DATE,
-    },
+      type: Sequelize.DATE
+    }
   },
   {
     tableName: 'sales',
-    sequelize: database.connection,
+    sequelize: database.connection
   }
 );
 
 Sale.belongsTo(Client, {
   foreignKey: 'clientId',
-  as: 'client',
+  as: 'client'
 });
 
 export default Sale;

@@ -19,7 +19,9 @@ export default class ProviderController {
     response: Response
   ): Promise<Response> => {
     try {
-      Logger.debug('ProviderController - findAll - call productService.findall');
+      Logger.debug(
+        'ProviderController - findAll - call productService.findall'
+      );
 
       const providers: Provider[] | null = await this.providerService.findAll();
 

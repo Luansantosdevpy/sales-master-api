@@ -65,9 +65,12 @@ export default async (container: DependencyContainer): Promise<void> => {
     useClass: SaleService
   });
 
-  container.register<ProviderRepositoryInterface>('ProviderRepositoryInterface', {
-    useClass: ProviderRepository
-  });
+  container.register<ProviderRepositoryInterface>(
+    'ProviderRepositoryInterface',
+    {
+      useClass: ProviderRepository
+    }
+  );
 
   container.register<ProviderService>('ProviderService', {
     useClass: ProviderService

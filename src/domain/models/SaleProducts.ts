@@ -16,34 +16,34 @@ SaleProducts.init(
   {
     id: {
       type: DataTypes.STRING,
-      primaryKey: true,
+      primaryKey: true
     },
     saleId: {
-        type: DataTypes.UUID,
+      type: DataTypes.UUID
     },
     productId: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUID
     },
     quantity: DataTypes.DECIMAL(10, 2),
     createdAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     },
     updatedAt: {
-      type: DataTypes.DATE,
-    },
+      type: DataTypes.DATE
+    }
   },
   {
     tableName: 'saleProducts',
-    sequelize: database.connection,
+    sequelize: database.connection
   }
 );
 
 SaleProducts.belongsTo(Sale, {
-    foreignKey: 'saleId',
+  foreignKey: 'saleId'
 });
 
 SaleProducts.belongsTo(Product, {
-    foreignKey: 'productId',
+  foreignKey: 'productId'
 });
 
 export default SaleProducts;

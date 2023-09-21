@@ -53,7 +53,9 @@ class ProviderService {
   };
 
   public findById = async (id: string): Promise<Provider | null> => {
-    Logger.debug('ProviderService - findById - call ProviderRepository.findById');
+    Logger.debug(
+      'ProviderService - findById - call ProviderRepository.findById'
+    );
     return this.providerRepository.findById(id);
   };
 
