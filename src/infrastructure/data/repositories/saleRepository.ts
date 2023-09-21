@@ -8,9 +8,7 @@ import Sales from '../../../domain/models/Sales';
 @injectable()
 export default class SalesRepository implements SalesRepositoryInterface {
   public save = async (newSale: Partial<Sales>): Promise<Sales> => {
-    Logger.debug(
-      `SalesRepository - create - execute [newProduct: ${newSale}]`
-    );
+    Logger.debug(`SalesRepository - create - execute [newProduct: ${newSale}]`);
     const sale = Sales.create({
       id: uuidv4(),
       date: new Date(),

@@ -6,9 +6,7 @@ const createSaleRequestValidation: ValidationChain[] = [
     .withMessage("Property 'client id' cannot be empty.")
     .isString(),
 
-  check('itensSale')
-    .notEmpty()
-    .withMessage("Property 'items' cannot be empty.")
+  check('itensSale').notEmpty().withMessage("Property 'items' cannot be empty.")
 ];
 
 const findSaleRequestValidations: ValidationChain[] = [

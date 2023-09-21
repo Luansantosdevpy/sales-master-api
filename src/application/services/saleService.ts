@@ -17,19 +17,19 @@ class SaleService {
   async create(sale: Sale): Promise<Sale> {
     let prices: number[] = [];
     Logger.debug('SaleService - create - validate email');
-  
+
     for (const value of sale.itensSale) {
       const product = await this.productService.findById(value);
-  
+
       if (product) {
         prices.push(product.price);
       }
     }
-  
+
     const total = await calculateTotalPrice(prices);
-  
+
     sale.total = total;
-  
+
     Logger.debug('SaleService - create - call saleRepository.save');
     return this.saleRepository.save(sale);
   }

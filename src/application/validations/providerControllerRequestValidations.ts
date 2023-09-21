@@ -29,13 +29,13 @@ const findProviderRequestValidations: ValidationChain[] = [
 ];
 
 const updateProviderRequestValidations: ValidationChain[] = [
-    check('id')
+  check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
     .isUUID()
     .withMessage("Property 'id' must be a valid UUID."),
 
-    check('name')
+  check('name')
     .notEmpty()
     .withMessage("Property 'name' cannot be empty.")
     .isString()

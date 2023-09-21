@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false
       },
       total: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(10, 2)
       },
       itensSale: {
         type: Sequelize.JSONB,
