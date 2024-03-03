@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: sh -c 'yarn install && yarn build && yarn dev'
+    command: sh -c 'yarn install && yarn build && yarn migration:run && yarn dev'
     ports:
       - '4000:4000'
     environment:
