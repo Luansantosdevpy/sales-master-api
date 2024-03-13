@@ -1,48 +1,19 @@
-import Sequelize, { Model } from 'sequelize';
-import database from '../../infrastructure/data/config/database';
+import mongoose, { Schema } from 'mongoose';
+import IUser from '../interfaces/modelInterfaces/userInterface';
 
-class User extends Model {
-  public id: string;
-
-  public name: string;
-
-  public email: string;
-
-  public cpf: string;
-
-  public password: string;
-
-  public confirm_password: string;
-
-  public createdAt?: Date | string;
-
-  public updatedAt?: Date | string;
-}
-
-User.init(
+const userSchema = new Schema(
   {
-    id: {
-      type: Sequelize.STRING,
-      primaryKey: true
-    },
-    name: Sequelize.STRING,
-    email: Sequelize.STRING,
-    cpf: Sequelize.STRING,
-    password: Sequelize.STRING,
-    confirm_password: Sequelize.STRING,
-    createdAt: {
-      type: Sequelize.DATE,
-      field: 'created_at'
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      field: 'updated_at'
-    }
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    cpf: { type: String, required: true },
+    password: { type: String, required: true },
+    confirm_password: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now, alias: 'created_at' },
+    updatedAt: { type: Date, default: Date.now, alias: 'updated_at' }
   },
-  {
-    tableName: 'users',
-    sequelize: database.connection
-  }
+  { collection: 'users' } // Define o nome da coleção no MongoDB
 );
+
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;

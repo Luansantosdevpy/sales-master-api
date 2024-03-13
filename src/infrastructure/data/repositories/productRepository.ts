@@ -1,91 +1,56 @@
 import { injectable } from 'tsyringe';
-import { v4 as uuidv4 } from 'uuid';
 import Logger from '../../log/logger';
-import ProductRepositoryInterface from '../../../domain/interfaces/repositories/productRepositoryInterface';
 import Product from '../../../domain/models/Product';
+import IProduct from '../../../domain/interfaces/modelInterfaces/productInterface';
+import ProductRepositoryInterface from '../../../domain/interfaces/repositories/productRepositoryInterface';
 
 @injectable()
 export default class ProductRepository implements ProductRepositoryInterface {
-  public save = async (newProduct: Partial<Product>): Promise<Product> => {
+  public save = async (newProduct: Partial<IProduct>): Promise<IProduct> => {
     Logger.debug(
       `ProductRepository - create - execute [newProduct: ${newProduct}]`
     );
-    const product = Product.create({
-      id: uuidv4(),
-      name: newProduct.name,
-      description: newProduct.description,
-      price: newProduct.price,
-      productStock: newProduct.productStock,
-      sku: newProduct.sku,
-      categoryId: newProduct.categoryId,
-      provider: newProduct.provider,
-      active: newProduct.active,
-      image: newProduct.image,
-      attributes: newProduct.attributes
+    const product = await Product.create({
+      ...newProduct,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     return product;
   };
 
-  public findByName = async (name: string): Promise<Product | null> => {
+  public findByName = async (name: string): Promise<IProduct | null> => {
     Logger.debug(`ProductRepository - findByName - name: ${name}`);
-    return Product.findOne({
-      where: {
-        name
-      }
-    });
+    return await Product.findOne({ name });
   };
 
-  public findAll = async (): Promise<Product[]> => {
+  public findAll = async (): Promise<IProduct[]> => {
     Logger.debug('ProductRepository - findAll - execute');
-    return Product.findAll({
-      order: [['name', 'ASC']]
-    });
+    return await Product.find().sort({ name: 1 });
   };
 
   public delete = async (id: string): Promise<void> => {
     Logger.debug(`ProductRepository - delete - execute [id: ${id}]`);
-    await Product.destroy({
-      where: {
-        id
-      }
-    });
+    await Product.deleteOne({ _id: id });
   };
 
   public update = async (
     id: string,
-    updatedProduct: Partial<Product>
+    updatedProduct: Partial<IProduct>
   ): Promise<void> => {
     Logger.debug(
       `ProductRepository - update - execute [id: ${id} | updatedProduct: ${updatedProduct}]`
     );
-    await Product.update(
+    await Product.updateOne(
+      { _id: id },
       {
-        name: updatedProduct.name,
-        description: updatedProduct.description,
-        price: updatedProduct.price,
-        productStock: updatedProduct.productStock,
-        sku: updatedProduct.sku,
-        categoryId: updatedProduct.categoryId,
-        provider: updatedProduct.provider,
-        active: updatedProduct.active,
-        image: updatedProduct.image,
-        attributes: updatedProduct.attributes,
-        updatedAt: new Date()
-      },
-      {
-        where: {
-          id
-        }
+        ...updatedProduct,
+        updatedAt: new Date(),
       }
     );
   };
 
-  public findById = async (id: string): Promise<Product | null> => {
+  public findById = async (id: string): Promise<IProduct | null> => {
     Logger.debug(`ProductRepository - findById - execute [id: ${id}]`);
-    return Product.findOne({
-      where: {
-        id
-      }
-    });
+    return await Product.findById(id);
   };
 }

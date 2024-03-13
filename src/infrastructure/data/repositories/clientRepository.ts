@@ -1,93 +1,56 @@
 import { injectable } from 'tsyringe';
-import { v4 as uuidv4 } from 'uuid';
 import Logger from '../../log/logger';
-import Client from '../../../domain/models/Client';
+import IClient from '../../../domain/interfaces/modelInterfaces/clientInterface';
+import ClientModel from '../../../domain/models/Client';
 import ClientRepositoryInterface from '../../../domain/interfaces/repositories/clientRepositoryInterface';
 
 @injectable()
 export default class ClientRepository implements ClientRepositoryInterface {
-  public save = async (newClient: Partial<Client>): Promise<Client> => {
+  public save = async (newClient: Partial<IClient>): Promise<IClient> => {
     Logger.debug(
       `ClientRepository - create - execute [newClient: ${newClient}]`
     );
-    const client = Client.create({
-      id: uuidv4(),
-      name: newClient.name,
-      email: newClient.email,
-      phone_number: newClient.phone_number,
-      cpf: newClient.cpf,
-      address: newClient.address,
-      postal_code: newClient.postal_code,
-      address_number: newClient.address_number,
-      complement: newClient.complement,
-      province: newClient.province,
-      city: newClient.city,
-      uf: newClient.uf
+    const client = await ClientModel.create({
+      ...newClient,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     return client;
   };
 
-  public findByName = async (name: string): Promise<Client | null> => {
+  public findByName = async (name: string): Promise<IClient | null> => {
     Logger.debug(`ClientRepository - findByName - name: ${name}`);
-    return Client.findOne({
-      where: {
-        name
-      }
-    });
+    return await ClientModel.findOne({ name });
   };
 
-  public findAll = async (): Promise<Client[]> => {
+  public findAll = async (): Promise<IClient[]> => {
     Logger.debug('ClientRepository - findAll - execute');
-    return Client.findAll({
-      order: [['name', 'ASC']]
-    });
+    return await ClientModel.find().sort({ name: 1 });
   };
 
   public delete = async (id: string): Promise<void> => {
     Logger.debug(`ClientRepository - delete - execute [id: ${id}]`);
-    await Client.destroy({
-      where: {
-        id
-      }
-    });
+    await ClientModel.deleteOne({ _id: id });
   };
 
   public update = async (
     id: string,
-    updatedClient: Partial<Client>
+    updatedClient: Partial<IClient>
   ): Promise<void> => {
     Logger.debug(
       `ClientRepository - update - execute [id: ${id} | updatedClient: ${updatedClient}]`
     );
-    await Client.update(
+    await ClientModel.updateOne(
+      { _id: id },
       {
-        name: updatedClient.name,
-        email: updatedClient.email,
-        phone_number: updatedClient.phone_number,
-        cpf: updatedClient.cpf,
-        address: updatedClient.address,
-        postal_code: updatedClient.postal_code,
-        address_number: updatedClient.address_number,
-        complement: updatedClient.complement,
-        province: updatedClient.province,
-        city: updatedClient.city,
-        uf: updatedClient.uf,
-        updatedAt: new Date()
-      },
-      {
-        where: {
-          id
-        }
+        ...updatedClient,
+        updatedAt: new Date(),
       }
     );
   };
 
-  public findById = async (id: string): Promise<Client | null> => {
+  public findById = async (id: string): Promise<IClient | null> => {
     Logger.debug(`ClientRepository - findById - execute [id: ${id}]`);
-    return Client.findOne({
-      where: {
-        id
-      }
-    });
+    return await ClientModel.findById(id);
   };
 }

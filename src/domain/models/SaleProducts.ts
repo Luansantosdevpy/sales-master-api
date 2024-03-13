@@ -1,49 +1,17 @@
-import { Model, DataTypes } from 'sequelize';
-import database from '../../infrastructure/data/config/database';
-import Product from './Product';
-import Sale from './Sales';
+import mongoose, { Schema } from 'mongoose';
+import ISaleProducts from '../interfaces/modelInterfaces/saleProductInterface';
 
-class SaleProducts extends Model {
-  public id: string;
-  public saleId: string;
-  public productId: string;
-  public quantity: number;
-  public createdAt?: Date | string;
-  public updatedAt?: Date | string;
-}
-
-SaleProducts.init(
+const saleProductsSchema = new Schema(
   {
-    id: {
-      type: DataTypes.STRING,
-      primaryKey: true
-    },
-    saleId: {
-      type: DataTypes.UUID
-    },
-    productId: {
-      type: DataTypes.UUID
-    },
-    quantity: DataTypes.DECIMAL(10, 2),
-    createdAt: {
-      type: DataTypes.DATE
-    },
-    updatedAt: {
-      type: DataTypes.DATE
-    }
+    saleId: { type: Schema.Types.ObjectId, ref: 'Sale', required: true },
+    productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+    quantity: { type: Number, required: true },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
-  {
-    tableName: 'saleProducts',
-    sequelize: database.connection
-  }
+  { collection: 'saleProducts' } // Define o nome da coleção no MongoDB
 );
 
-SaleProducts.belongsTo(Sale, {
-  foreignKey: 'saleId'
-});
-
-SaleProducts.belongsTo(Product, {
-  foreignKey: 'productId'
-});
+const SaleProducts = mongoose.model<ISaleProducts>('SaleProducts', saleProductsSchema);
 
 export default SaleProducts;

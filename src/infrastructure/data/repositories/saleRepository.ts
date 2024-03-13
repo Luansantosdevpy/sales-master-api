@@ -1,69 +1,48 @@
 import { injectable } from 'tsyringe';
-import { v4 as uuidv4 } from 'uuid';
 import Logger from '../../log/logger';
-import Product from '../../../domain/models/Product';
-import SalesRepositoryInterface from '../../../domain/interfaces/repositories/saleRepositoryInterface';
 import Sales from '../../../domain/models/Sales';
+import ISale from '../../../domain/interfaces/modelInterfaces/salesInterface';
+import SalesRepositoryInterface from '../../../domain/interfaces/repositories/saleRepositoryInterface';
 
 @injectable()
 export default class SalesRepository implements SalesRepositoryInterface {
-  public save = async (newSale: Partial<Sales>): Promise<Sales> => {
-    Logger.debug(`SalesRepository - create - execute [newProduct: ${newSale}]`);
-    const sale = Sales.create({
-      id: uuidv4(),
+  public save = async (newSale: Partial<ISale>): Promise<ISale> => {
+    Logger.debug(`SalesRepository - create - execute [newSale: ${newSale}]`);
+    const sale = await Sales.create({
+      ...newSale,
       date: new Date(),
-      clientId: newSale.clientId,
-      total: newSale.total,
-      itensSale: [newSale.itensSale]
     });
     return sale;
   };
 
-  public findAll = async (): Promise<Sales[]> => {
+  public findAll = async (): Promise<ISale[]> => {
     Logger.debug('SalesRepository - findAll - execute');
-    return Sales.findAll({
-      order: [['clientId', 'ASC']]
-    });
+    return await Sales.find().sort({ clientId: 1 });
   };
 
   public delete = async (id: string): Promise<void> => {
     Logger.debug(`SalesRepository - delete - execute [id: ${id}]`);
-    await Sales.destroy({
-      where: {
-        id
-      }
-    });
+    await Sales.deleteOne({ _id: id });
   };
 
   public update = async (
     id: string,
-    updatedSale: Partial<Sales>
+    updatedSale: Partial<ISale>
   ): Promise<void> => {
     Logger.debug(
-      `ProductRepository - update - execute [id: ${id} | updatedSale: ${updatedSale}]`
+      `SalesRepository - update - execute [id: ${id} | updatedSale: ${updatedSale}]`
     );
-    await Product.update(
+    await Sales.updateOne(
+      { _id: id },
       {
-        date: new Date(),
-        clientId: updatedSale.clientId,
-        total: updatedSale.total,
-        itensSale: [updatedSale.itensSale],
-        updatedAt: new Date()
-      },
-      {
-        where: {
-          id
-        }
+        ...updatedSale,
+        updatedAt: new Date(),
       }
     );
   };
 
-  public findById = async (id: string): Promise<Sales | null> => {
+  public findById = async (id: string): Promise<ISale | null> => {
     Logger.debug(`SalesRepository - findById - execute [id: ${id}]`);
-    return Sales.findOne({
-      where: {
-        id
-      }
-    });
+    return await Sales.findById(id);
   };
 }

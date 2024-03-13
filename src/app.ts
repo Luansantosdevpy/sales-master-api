@@ -6,6 +6,8 @@ import { Server } from 'http';
 import dependencyContainer from './dependencyContainer';
 import Logger from './infrastructure/log/logger';
 import routes from './api/routes/routes';
+import dbConfig from './infrastructure/data/config/database';
+import mongoose from 'mongoose';
 
 export default class App {
   public express: express.Application = express();
@@ -13,6 +15,7 @@ export default class App {
   private server: Server;
 
   public initialize = async (): Promise<void> => {
+    await this.connectToMongoDB();
     await this.dependencyContainer();
     await this.middlewares();
     await this.routes();
@@ -39,6 +42,17 @@ export default class App {
     );
     this.express.use(cors());
   };
+
+  private async connectToMongoDB(): Promise<void> {
+    try {
+      const { uri, options } = dbConfig;
+      await mongoose.connect(uri, options);
+      Logger.info('Connected to MongoDB');
+    } catch (error) {
+      Logger.error('Error connecting to MongoDB:', error);
+      process.exit(1);
+    }
+  }
 
   private dependencyContainer = async (): Promise<void> => {
     await dependencyContainer(container);
