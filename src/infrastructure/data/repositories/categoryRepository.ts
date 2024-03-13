@@ -1,79 +1,56 @@
 import { injectable } from 'tsyringe';
-import { v4 as uuidv4 } from 'uuid';
 import Logger from '../../log/logger';
-import CategoryRepositoryInterface from '../../../domain/interfaces/repositories/categoryRepositoryInterface';
 import Category from '../../../domain/models/Category';
+import ICategory from '../../../domain/interfaces/modelInterfaces/categoryInterface';
+import CategoryRepositoryInterface from '../../../domain/interfaces/repositories/categoryRepositoryInterface';
 
 @injectable()
 export default class CategoryRepository implements CategoryRepositoryInterface {
-  public save = async (newCategory: Partial<Category>): Promise<Category> => {
+  public save = async (newCategory: Partial<ICategory>): Promise<ICategory> => {
     Logger.debug(
       `CategoryRepository - create - execute [newCategory: ${newCategory}]`
     );
-    const category = Category.create({
-      id: uuidv4(),
-      category_name: newCategory.category_name,
-      description: newCategory.description,
-      category_image: newCategory.category_image,
-      category_icon: newCategory.category_icon
+    const category = await Category.create({
+      ...newCategory,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     return category;
   };
 
-  public findByName = async (name: string): Promise<Category | null> => {
+  public findByName = async (name: string): Promise<ICategory | null> => {
     Logger.debug(`CategoryRepository - findByName - name: ${name}`);
-    return Category.findOne({
-      where: {
-        category_name: name
-      }
-    });
+    return await Category.findOne({ category_name: name });
   };
 
-  public findAll = async (): Promise<Category[]> => {
+  public findAll = async (): Promise<ICategory[]> => {
     Logger.debug('CategoryRepository - findAll - execute');
-    return Category.findAll({
-      order: [['category_name', 'ASC']]
-    });
+    return await Category.find().sort({ category_name: 1 });
   };
 
   public delete = async (id: string): Promise<void> => {
     Logger.debug(`CategoryRepository - delete - execute [id: ${id}]`);
-    await Category.destroy({
-      where: {
-        id
-      }
-    });
+    await Category.deleteOne({ _id: id });
   };
 
   public update = async (
     id: string,
-    updatedCategory: Partial<Category>
+    updatedCategory: Partial<ICategory>
   ): Promise<void> => {
     Logger.debug(
       `CategoryRepository - update - execute [id: ${id} | updatedCategory: ${updatedCategory}]`
     );
-    await Category.update(
+    await Category.updateOne(
+      { _id: id },
       {
-        category_name: updatedCategory.category_name,
-        description: updatedCategory.description,
-        category_image: updatedCategory.category_image,
-        category_icon: updatedCategory.category_icon,
-        updatedAt: new Date()
-      },
-      {
-        where: {
-          id
-        }
+        ...updatedCategory,
+        updatedAt: new Date(),
       }
     );
   };
 
-  public findById = async (id: string): Promise<Category | null> => {
+  public findById = async (id: string): Promise<ICategory | null> => {
     Logger.debug(`CategoryRepository - findById - execute [id: ${id}]`);
-    return Category.findOne({
-      where: {
-        id
-      }
-    });
+    return await Category.findById(id);
   };
 }
