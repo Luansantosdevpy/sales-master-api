@@ -22,24 +22,18 @@ services:
       DB_POSTGRES_USER: ${DB_POSTGRES_USER}
       DB_POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
     depends_on:
-      - postgres
+      - db
     links:
-      - postgres
+      - db
     networks:
       - prv-net
 
-  postgres:
-    container_name: sales_database
-    image: postgres:13-alpine
-    restart: always
-    environment:
-      POSTGRES_DB: ${DB_POSTGRES_NAME}
-      POSTGRES_USER: ${DB_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+  db:
+    image: mongo:latest
     ports:
-      - 5436:5432
-    networks:
-      - prv-net
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
 
 networks:
   prv-net:
