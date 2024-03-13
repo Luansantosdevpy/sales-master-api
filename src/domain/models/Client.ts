@@ -1,64 +1,22 @@
-import Sequelize, { Model } from 'sequelize';
-import database from '../../infrastructure/data/config/database';
+import { Schema, model } from 'mongoose';
+import IClient from '../interfaces/modelInterfaces/clientInterface';
 
-class Client extends Model {
-  public id: string;
+const ClientSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone_number: { type: String, required: true },
+  cpf: { type: String, required: true },
+  address: { type: String, required: true },
+  postal_code: { type: String, required: true },
+  address_number: { type: Number, required: true },
+  complement: { type: String },
+  province: { type: String, required: true },
+  city: { type: String, required: true },
+  uf: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
 
-  public name: string;
-
-  public email: string;
-
-  public phone_number: string;
-
-  public cpf: string;
-
-  public address: string;
-
-  public postal_code: string;
-
-  public address_number: number;
-
-  public complement: string;
-
-  public province: string;
-
-  public city: string;
-
-  public uf: string;
-
-  public createdAt?: Date | string;
-
-  public updatedAt?: Date | string;
-}
-
-Client.init(
-  {
-    id: {
-      type: Sequelize.STRING,
-      primaryKey: true
-    },
-    name: Sequelize.STRING,
-    email: Sequelize.STRING,
-    phone_number: Sequelize.STRING,
-    cpf: Sequelize.STRING,
-    address: Sequelize.STRING,
-    postal_code: Sequelize.STRING,
-    address_number: Sequelize.NUMBER,
-    complement: Sequelize.STRING,
-    province: Sequelize.STRING,
-    city: Sequelize.STRING,
-    uf: Sequelize.STRING,
-    createdAt: {
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      type: Sequelize.DATE
-    }
-  },
-  {
-    tableName: 'clients',
-    sequelize: database.connection
-  }
-);
+const Client = model<IClient>('Client', ClientSchema);
 
 export default Client;

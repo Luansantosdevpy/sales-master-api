@@ -1,43 +1,18 @@
-import Sequelize, { Model } from 'sequelize';
-import database from '../../infrastructure/data/config/database';
+import mongoose, { Schema } from 'mongoose';
+import ICategory from '../interfaces/modelInterfaces/categoryInterface';
 
-class Category extends Model {
-  public id: string;
-
-  public category_name: string;
-
-  public description: string;
-
-  public category_image: string;
-
-  public category_icon: string;
-
-  public createdAt?: Date | string;
-
-  public updatedAt?: Date | string;
-}
-
-Category.init(
+const categorySchema = new Schema(
   {
-    id: {
-      type: Sequelize.STRING,
-      primaryKey: true
-    },
-    category_name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    category_image: Sequelize.STRING,
-    category_icon: Sequelize.STRING,
-    createdAt: {
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      type: Sequelize.DATE
-    }
+    category_name: { type: String, required: true },
+    description: { type: String, required: true },
+    category_image: { type: String, required: true },
+    category_icon: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
-  {
-    tableName: 'categories',
-    sequelize: database.connection
-  }
+  { collection: 'categories' }
 );
+
+const Category = mongoose.model<ICategory>('Category', categorySchema);
 
 export default Category;

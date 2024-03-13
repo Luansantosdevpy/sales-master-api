@@ -1,54 +1,18 @@
-import Sequelize, { Model } from 'sequelize';
-import database from '../../infrastructure/data/config/database';
-import Client from './Client';
+import mongoose, { Schema } from 'mongoose';
+import ISale from '../interfaces/modelInterfaces/salesInterface';
 
-class Sale extends Model {
-  public id: string;
-
-  public date: Date;
-
-  public clientId: string;
-
-  public total: number;
-
-  public itensSale: string[];
-
-  public createdAt?: Date | string;
-
-  public updatedAt?: Date | string;
-}
-
-Sale.init(
+const saleSchema = new Schema(
   {
-    id: {
-      type: Sequelize.STRING,
-      primaryKey: true
-    },
-    date: Sequelize.DATE,
-    clientId: {
-      type: Sequelize.UUID
-    },
-    total: Sequelize.DECIMAL(10, 2),
-    itensSale: {
-      type: Sequelize.JSONB,
-      defaultValue: []
-    },
-    createdAt: {
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      type: Sequelize.DATE
-    }
+    date: { type: Date, required: true },
+    clientId: { type: Schema.Types.ObjectId, ref: 'Client', required: true },
+    total: { type: Number, required: true },
+    itensSale: { type: [String], default: [] },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   },
-  {
-    tableName: 'sales',
-    sequelize: database.connection
-  }
+  { collection: 'sales' }
 );
 
-Sale.belongsTo(Client, {
-  foreignKey: 'clientId',
-  as: 'client'
-});
+const Sale = mongoose.model<ISale>('Sale', saleSchema);
 
 export default Sale;
