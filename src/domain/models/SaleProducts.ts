@@ -9,7 +9,7 @@ const saleProductsSchema = new Schema(
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   },
-  { collection: 'saleProducts' } // Define o nome da coleção no MongoDB
+  { collection: 'saleProducts' }
 );
 
 const SaleProducts = mongoose.model<ISaleProducts>('SaleProducts', saleProductsSchema);

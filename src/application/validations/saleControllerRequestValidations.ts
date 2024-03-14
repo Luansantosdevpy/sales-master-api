@@ -13,16 +13,16 @@ const findSaleRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 const updateSaleRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID."),
+    .isString()
+    .withMessage("Property 'id' must be a valid string."),
   check('clientId')
     .optional()
     .isString()
@@ -33,8 +33,8 @@ const deleteSaleRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 export {

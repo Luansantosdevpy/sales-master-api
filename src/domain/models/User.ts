@@ -11,7 +11,7 @@ const userSchema = new Schema(
     createdAt: { type: Date, default: Date.now, alias: 'created_at' },
     updatedAt: { type: Date, default: Date.now, alias: 'updated_at' }
   },
-  { collection: 'users' } // Define o nome da coleção no MongoDB
+  { collection: 'users' }
 );
 
 const User = mongoose.model<IUser>('User', userSchema);

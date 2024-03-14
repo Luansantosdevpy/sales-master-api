@@ -24,16 +24,16 @@ const findProviderRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 const updateProviderRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID."),
+    .isString()
+    .withMessage("Property 'id' must be a valid string."),
 
   check('name')
     .notEmpty()
@@ -58,8 +58,8 @@ const deleteProviderRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 export {

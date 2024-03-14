@@ -9,16 +9,6 @@ const createProductRequestValidation: ValidationChain[] = [
 
   check('price').notEmpty().withMessage("Property 'price' cannot be empty."),
 
-  check('sku')
-    .notEmpty()
-    .withMessage("Property 'phone sku' cannot be empty.")
-    .isString(),
-
-  check('categoryId')
-    .notEmpty()
-    .withMessage("Property 'categoryId' cannot be empty.")
-    .isUUID(),
-
   check('attributes')
     .notEmpty()
     .withMessage("Property 'attributes' cannot be empty.")
@@ -29,8 +19,8 @@ const findProductRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 const updateProductRequestValidations: ValidationChain[] = [
@@ -50,7 +40,7 @@ const updateProductRequestValidations: ValidationChain[] = [
   check('categoryId')
     .notEmpty()
     .withMessage("Property 'categoryId' cannot be empty.")
-    .isUUID(),
+    .isString(),
 
   check('attributes')
     .notEmpty()
@@ -62,8 +52,8 @@ const deleteProductRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 export {

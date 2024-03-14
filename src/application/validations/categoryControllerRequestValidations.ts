@@ -12,16 +12,16 @@ const findCategoryRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 const updateCategoryRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID."),
+    .isString()
+    .withMessage("Property 'id' must be a valid string."),
   check('category_name')
     .optional()
     .isString()
@@ -34,8 +34,8 @@ const deleteCategoryRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 export {
