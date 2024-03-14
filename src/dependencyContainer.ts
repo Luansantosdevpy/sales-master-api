@@ -1,5 +1,4 @@
 import { DependencyContainer } from 'tsyringe';
-import { Sequelize } from 'sequelize';
 import Logger from './infrastructure/log/logger';
 import UserRepository from './infrastructure/data/repositories/userRepository';
 import UserService from './application/services/userService';
@@ -22,6 +21,9 @@ import ProviderService from './application/services/providerService';
 import HealthCheckRepositoryInterface from './domain/interfaces/repositories/healthCheckRepositoryInterface';
 import PostgresHealthCheckRepository from './infrastructure/data/repositories/healthCheckRepository';
 import HealthCheckService from './application/services/healthCheckService';
+import TableRepositoryInterface from './domain/interfaces/repositories/tableRepositoryInterface';
+import TableRepository from './infrastructure/data/repositories/tableRepository';
+import TableService from './application/services/tableService';
 
 export default async (container: DependencyContainer): Promise<void> => {
   Logger.debug('Dependency container initializing...');
@@ -78,6 +80,17 @@ export default async (container: DependencyContainer): Promise<void> => {
 
   container.register<ProviderService>('ProviderService', {
     useClass: ProviderService
+  });
+
+  container.register<TableRepositoryInterface>(
+    'TableRepositoryInterface',
+    {
+      useClass: TableRepository
+    }
+  );
+
+  container.register<TableService>('TableService', {
+    useClass: TableService
   });
 
   container.register<HealthCheckRepositoryInterface>(
