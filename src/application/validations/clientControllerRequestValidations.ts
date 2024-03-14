@@ -26,16 +26,16 @@ const findClientRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 const updateClientRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID."),
+    .isString()
+    .withMessage("Property 'id' must be a valid string."),
   check('name')
     .optional()
     .isString()
@@ -48,8 +48,8 @@ const deleteClientRequestValidations: ValidationChain[] = [
   check('id')
     .notEmpty()
     .withMessage("Property 'id' cannot be empty.")
-    .isUUID()
-    .withMessage("Property 'id' must be a valid UUID.")
+    .isString()
+    .withMessage("Property 'id' must be a valid string.")
 ];
 
 export {
