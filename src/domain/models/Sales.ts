@@ -4,9 +4,9 @@ import ISale from '../interfaces/modelInterfaces/salesInterface';
 const saleSchema = new Schema(
   {
     date: { type: Date, required: true },
-    clientId: { type: Schema.Types.ObjectId, ref: 'Client', required: true },
-    total: { type: Number, required: true },
-    itensSale: { type: [String], default: [] },
+    clientId: { type: Schema.Types.ObjectId, ref: 'Client' },
+    total: { type: Number },
+    itensSale: { type: [String] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   },

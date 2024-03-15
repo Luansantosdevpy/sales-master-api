@@ -6,6 +6,7 @@ import category from './category';
 import product from './product';
 import sale from './sale';
 import provider from './provider';
+import table from './table';
 
 export default async (): Promise<Router> => {
   const router = Router();
@@ -18,6 +19,7 @@ export default async (): Promise<Router> => {
   router.use('/product', await product());
   router.use('/sale', await sale());
   router.use('/provider', await provider());
+  router.use('/table', await table());
 
   return router;
 };

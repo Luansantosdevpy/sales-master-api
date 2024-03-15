@@ -1,10 +1,10 @@
-import Product from '../../models/Product';
+import IProduct from '../modelInterfaces/productInterface';
 
 export default interface ProductRepositoryInterface {
-  save(user: Product): Promise<Product>;
-  findByName(name: string): Promise<Product | null>;
-  findAll(): Promise<Product[] | null>;
-  findById(id: string): Promise<Product | null>;
+  save(user: IProduct): Promise<IProduct>;
+  findByName(name: string): Promise<IProduct | null>;
+  findAll(): Promise<IProduct[] | null>;
+  findById(id: string): Promise<IProduct | null>;
   delete(id: string): Promise<void>;
-  update(id: string, Product: Partial<Product>): Promise<void>;
+  update(id: string, IProduct: Partial<IProduct>): Promise<void>;
 }

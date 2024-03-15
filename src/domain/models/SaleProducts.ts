@@ -1,17 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
-import ISaleProducts from '../interfaces/modelInterfaces/saleProductInterface';
+import ISaleTempInterface from '../interfaces/modelInterfaces/saleTempInterface';
 
-const saleProductsSchema = new Schema(
+const SaleTempSchema = new Schema(
   {
-    saleId: { type: Schema.Types.ObjectId, ref: 'Sale', required: true },
-    productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
-    quantity: { type: Number, required: true },
+    tableId: { type: Schema.Types.ObjectId, ref: 'Table', required: true },
+    itensSale: { type: Array, ref: 'Product', required: true },
+    quantity: { type: Number },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   },
   { collection: 'saleProducts' }
 );
 
-const SaleProducts = mongoose.model<ISaleProducts>('SaleProducts', saleProductsSchema);
+const SaleTemp = mongoose.model<ISaleTempInterface>('SaleTemp', SaleTempSchema);
 
-export default SaleProducts;
+export default SaleTemp;

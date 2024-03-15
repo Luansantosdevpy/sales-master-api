@@ -2,8 +2,8 @@ import { inject, injectable } from 'tsyringe';
 import Logger from '../../infrastructure/log/logger';
 import ValidationError from '../exceptions/validationError';
 import ProductRepositoryInterface from '../../domain/interfaces/repositories/productRepositoryInterface';
-import Product from '../../domain/models/Product';
 import CategoryService from './categoryService';
+import IProduct from '../../domain/interfaces/modelInterfaces/productInterface';
 
 @injectable()
 class ProductService {
@@ -14,7 +14,7 @@ class ProductService {
     public readonly categoryService: CategoryService
   ) {}
 
-  async create(product: Product): Promise<Product> {
+  async create(product: IProduct): Promise<IProduct> {
     Logger.debug('ProductService - create - validate email');
     const emailExists = await this.productRepository.findByName(product.name);
 
@@ -38,14 +38,14 @@ class ProductService {
     return this.productRepository.save(product);
   }
 
-  public findAll = async (): Promise<Product[] | null> => {
+  public findAll = async (): Promise<IProduct[] | null> => {
     Logger.debug('ProductService - findAll - call productRepository.findAll');
     return this.productRepository.findAll();
   };
 
   public update = async (
     id: string,
-    updatedProduct: Partial<Product>
+    updatedProduct: Partial<IProduct>
   ): Promise<void> => {
     Logger.debug('ProductService - update - call ProductService.find');
     await this.findById(id);
@@ -65,7 +65,7 @@ class ProductService {
     return this.productRepository.update(id, updatedProduct);
   };
 
-  public findById = async (id: string): Promise<Product | null> => {
+  public findById = async (id: string): Promise<IProduct | null> => {
     Logger.debug('ProductService - findById - call productRepository.findById');
     return this.productRepository.findById(id);
   };

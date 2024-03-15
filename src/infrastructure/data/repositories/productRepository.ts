@@ -51,6 +51,6 @@ export default class ProductRepository implements ProductRepositoryInterface {
 
   public findById = async (id: string): Promise<IProduct | null> => {
     Logger.debug(`ProductRepository - findById - execute [id: ${id}]`);
-    return await Product.findById(id);
+    return await Product.findById({ _id: id }).exec();
   };
 }

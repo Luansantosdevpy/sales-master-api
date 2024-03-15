@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import Logger from '../../infrastructure/log/logger';
 import ValidationError from '../exceptions/validationError';
 import ProviderRepositoryInterface from '../../domain/interfaces/repositories/providerRepositoryInterface';
-import Provider from '../../domain/models/Provider';
+import IProvider from '../../domain/interfaces/modelInterfaces/providerInterface';
 
 @injectable()
 class ProviderService {
@@ -11,9 +11,9 @@ class ProviderService {
     public readonly providerRepository: ProviderRepositoryInterface
   ) {}
 
-  async create(provider: Provider): Promise<Provider> {
+  async create(provider: IProvider): Promise<IProvider> {
     Logger.debug('ProviderService - create - validate name');
-    const nameExists = await this.providerRepository.findByName(Provider.name);
+    const nameExists = await this.providerRepository.findByName(provider.name);
 
     if (nameExists) {
       throw new ValidationError(
@@ -25,14 +25,14 @@ class ProviderService {
     return this.providerRepository.save(provider);
   }
 
-  public findAll = async (): Promise<Provider[] | null> => {
+  public findAll = async (): Promise<IProvider[] | null> => {
     Logger.debug('ProviderService - findAll - call ProviderRepository.findAll');
     return this.providerRepository.findAll();
   };
 
   public update = async (
     id: string,
-    updatedProvider: Partial<Provider>
+    updatedProvider: Partial<IProvider>
   ): Promise<void> => {
     Logger.debug('ProviderService - update - call ProviderService.find');
     await this.findById(id);
@@ -52,7 +52,7 @@ class ProviderService {
     return this.providerRepository.update(id, updatedProvider);
   };
 
-  public findById = async (id: string): Promise<Provider | null> => {
+  public findById = async (id: string): Promise<IProvider | null> => {
     Logger.debug(
       'ProviderService - findById - call ProviderRepository.findById'
     );

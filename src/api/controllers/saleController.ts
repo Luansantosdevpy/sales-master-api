@@ -7,6 +7,7 @@ import ValidationError from '../../application/exceptions/validationError';
 import NotFoundError from '../../application/exceptions/notFoundError';
 import SaleService from '../../application/services/saleService';
 import Sale from '../../domain/models/Sales';
+import ISale from '../../domain/interfaces/modelInterfaces/salesInterface';
 
 @injectable()
 export default class SaleController {
@@ -21,7 +22,7 @@ export default class SaleController {
     try {
       Logger.debug('SaleController - findAll - call saleService.findall');
 
-      const sales: Sale[] | null = await this.saleService.findAll();
+      const sales: ISale[] | null = await this.saleService.findAll();
 
       return response.status(HttpStatusCode.Ok).json({ data: sales });
     } catch (error) {
@@ -95,6 +96,102 @@ export default class SaleController {
         .json({ error: 'Internal Server Error.' });
     }
   };
+
+  public closeTable = async (
+    request: Request,
+    response: Response
+  ): Promise<Response> => {
+    try {
+      Logger.debug('SaleController - closeTable - validate id');
+      const errors = validationResult(request);
+
+      if (!errors.isEmpty()) {
+        return response
+          .status(HttpStatusCode.UnprocessableEntity)
+          .send(errors.array());
+     }
+
+      const { tableId } = request.params;
+
+      Logger.debug('SaleController - closeTable - call saleService.closeTable');
+      const sale = await this.saleService.closeTable(tableId);
+
+      return response.status(HttpStatusCode.Ok).json({ data: sale });
+    } catch (error) {
+      Logger.error(`SaleController - find - error: ${error}`);
+
+      if (error instanceof NotFoundError) {
+        return response
+          .status(HttpStatusCode.NotFound)
+          .json({ error: error.message });
+      }
+
+      return response
+        .status(HttpStatusCode.InternalServerError)
+        .json({ error: 'Internal Server Error.' });
+    }
+  }; 
+
+  public addItem = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      Logger.debug('SaleController - create - call saleService.create');
+      const saleTemp = await this.saleService.addItem(req.body);
+
+      return res.status(HttpStatusCode.Ok).json({ data: saleTemp });
+    } catch (error) {
+      Logger.error(`SaleController - create - error: ${error}`);
+      if (error instanceof ValidationError) {
+        return res
+          .status(HttpStatusCode.UnprocessableEntity)
+          .json({ error: error.message });
+      }
+
+      if (error instanceof NotFoundError) {
+        return res
+          .status(HttpStatusCode.NotFound)
+          .json({ error: error.message });
+      }
+
+      return res
+        .status(HttpStatusCode.InternalServerError)
+        .json({ error: 'Internal Server Error.' });
+    }
+  };
+
+  public getAccount = async (
+    request: Request,
+    response: Response
+  ): Promise<Response> => {
+    try {
+      Logger.debug('SaleController - getAccount - validate id');
+      const errors = validationResult(request);
+
+      if (!errors.isEmpty()) {
+        return response
+          .status(HttpStatusCode.UnprocessableEntity)
+          .send(errors.array());
+     }
+
+      const { tableId } = request.params;
+
+      Logger.debug('SaleController - getAccount - call saleService.getAccount');
+      const sale = await this.saleService.visualizeAccount(tableId);
+
+      return response.status(HttpStatusCode.Ok).json({ data: sale });
+    } catch (error) {
+      Logger.error(`SaleController - getAccount - error: ${error}`);
+
+      if (error instanceof NotFoundError) {
+        return response
+          .status(HttpStatusCode.NotFound)
+          .json({ error: error.message });
+      }
+
+      return response
+        .status(HttpStatusCode.InternalServerError)
+        .json({ error: 'Internal Server Error.' });
+    }
+  }; 
 
   public update = async (
     request: Request,
