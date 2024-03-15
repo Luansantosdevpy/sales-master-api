@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import Logger from '../../infrastructure/log/logger';
 import ValidationError from '../exceptions/validationError';
 import ClientRepositoryInterface from '../../domain/interfaces/repositories/clientRepositoryInterface';
-import Client from '../../domain/models/Client';
+import IClient from '../../domain/interfaces/modelInterfaces/clientInterface';
 
 @injectable()
 class ClientService {
@@ -11,7 +11,7 @@ class ClientService {
     public readonly clientRepository: ClientRepositoryInterface
   ) {}
 
-  async create(client: Client): Promise<Client> {
+  async create(client: IClient): Promise<IClient> {
     Logger.debug('clientService - create - validate email');
     const emailExists = await this.clientRepository.findByName(client.name);
 
@@ -23,14 +23,14 @@ class ClientService {
     return this.clientRepository.save(client);
   }
 
-  public findAll = async (): Promise<Client[] | null> => {
+  public findAll = async (): Promise<IClient[] | null> => {
     Logger.debug('ClientService - findAll - call clientRepository.findAll');
     return this.clientRepository.findAll();
   };
 
   public update = async (
     id: string,
-    updatedClient: Partial<Client>
+    updatedClient: Partial<IClient>
   ): Promise<void> => {
     Logger.debug('ClientService - update - call ClientService.find');
     await this.findById(id);
@@ -50,7 +50,7 @@ class ClientService {
     return this.clientRepository.update(id, updatedClient);
   };
 
-  public findById = async (id: string): Promise<Client | null> => {
+  public findById = async (id: string): Promise<IClient | null> => {
     Logger.debug('ClientService - findById - call clientRepository.findById');
     return this.clientRepository.findById(id);
   };
