@@ -1,8 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 import Logger from '../../infrastructure/log/logger';
 import ValidationError from '../exceptions/validationError';
-import Category from '../../domain/models/Category';
 import CategoryRepositoryInterface from '../../domain/interfaces/repositories/categoryRepositoryInterface';
+import ICategory from '../../domain/interfaces/modelInterfaces/categoryInterface';
+import NotFoundError from '../exceptions/notFoundError';
 
 @injectable()
 class CategoryService {
@@ -11,7 +12,7 @@ class CategoryService {
     public readonly categoryRepository: CategoryRepositoryInterface
   ) {}
 
-  async create(category: Category): Promise<Category> {
+  async create(category: ICategory): Promise<ICategory> {
     Logger.debug('CategoryService - create - validate category name');
     const categoryExists = await this.categoryRepository.findByName(
       category.category_name
@@ -27,14 +28,14 @@ class CategoryService {
     return this.categoryRepository.save(category);
   }
 
-  public findAll = async (): Promise<Category[] | null> => {
+  public findAll = async (): Promise<ICategory[] | null> => {
     Logger.debug('CategoryService - findAll - call categoryRepository.findAll');
     return this.categoryRepository.findAll();
   };
 
   public update = async (
     id: string,
-    updatedCategory: Partial<Category>
+    updatedCategory: Partial<ICategory>
   ): Promise<void> => {
     Logger.debug('CategoryService - update - call CategoryService.find');
     await this.findById(id);
@@ -54,11 +55,16 @@ class CategoryService {
     return this.categoryRepository.update(id, updatedCategory);
   };
 
-  public findById = async (id: string): Promise<Category | null> => {
+  public findById = async (id: string): Promise<ICategory | null> => {
     Logger.debug(
       'CategoryService - findById - call categoryRepository.findById'
     );
-    return this.categoryRepository.findById(id);
+    const category = this.categoryRepository.findById(id);
+    if (!category) {
+      throw new NotFoundError('Not found category with this id');
+    }
+
+    return category;
   };
 
   public delete = async (id: string): Promise<void> => {

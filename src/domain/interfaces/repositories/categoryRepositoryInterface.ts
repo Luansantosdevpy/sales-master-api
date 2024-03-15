@@ -1,10 +1,10 @@
-import Category from '../../models/Category';
+import ICategory from '../modelInterfaces/categoryInterface';
 
 export default interface CategoryRepositoryInterface {
-  save(user: Category): Promise<Category>;
-  findByName(name: string): Promise<Category | null>;
-  findAll(): Promise<Category[] | null>;
-  findById(id: string): Promise<Category | null>;
+  save(user: ICategory): Promise<ICategory>;
+  findByName(name: string): Promise<ICategory | null>;
+  findAll(): Promise<ICategory[] | null>;
+  findById(id: string): Promise<ICategory | null>;
   delete(id: string): Promise<void>;
-  update(id: string, category: Partial<Category>): Promise<void>;
+  update(id: string, category: Partial<ICategory>): Promise<void>;
 }

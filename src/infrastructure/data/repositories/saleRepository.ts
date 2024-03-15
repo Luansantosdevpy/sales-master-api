@@ -61,7 +61,7 @@ export default class SalesRepository implements SalesRepositoryInterface {
 
   public findById = async (id: string): Promise<ISale | null> => {
     Logger.debug(`SalesRepository - findById - execute [id: ${id}]`);
-    return await Sales.findById(id);
+    return await Sales.findById({ _id: id }).exec();
   };
 
   public findSaleByTableId = async (tableId: string): Promise<ISaleTempInterface[] | null> => {

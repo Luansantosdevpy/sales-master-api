@@ -52,6 +52,6 @@ export default class TableRepository implements TableRepositoryInterface {
 
   public findById = async (id: string): Promise<ITable | null> => {
     Logger.debug(`TableRepository - findById - execute [id: ${id}]`);
-    return await Table.findById(id);
+    return await Table.findById({ _id: id }).exec();
   };
 }

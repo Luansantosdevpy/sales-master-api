@@ -51,6 +51,6 @@ export default class ProviderRepository implements ProviderRepositoryInterface {
 
   public findById = async (id: string): Promise<IProvider | null> => {
     Logger.debug(`ProviderRepository - findById - execute [id: ${id}]`);
-    return await Provider.findById(id);
+    return await Provider.findById({ _id: id }).exec();
   };
 }

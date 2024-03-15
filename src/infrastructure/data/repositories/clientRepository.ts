@@ -51,6 +51,6 @@ export default class ClientRepository implements ClientRepositoryInterface {
 
   public findById = async (id: string): Promise<IClient | null> => {
     Logger.debug(`ClientRepository - findById - execute [id: ${id}]`);
-    return await ClientModel.findById(id);
+    return await ClientModel.findById({ _id: id }).exec();
   };
 }

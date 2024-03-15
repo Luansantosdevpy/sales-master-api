@@ -5,8 +5,8 @@ const categorySchema = new Schema(
   {
     category_name: { type: String, required: true },
     description: { type: String, required: true },
-    category_image: { type: String, required: true },
-    category_icon: { type: String, required: true },
+    category_image: { type: String },
+    category_icon: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   },
