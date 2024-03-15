@@ -20,6 +20,21 @@ export default async (): Promise<Router> => {
     saleController.findById
   );
 
+  router.get(
+    '/close/:tableId',
+    saleController.closeTable
+  );
+
+  router.get(
+    '/account/:tableId',
+    saleController.getAccount
+  );
+
+  router.post(
+    '/addItem',
+    saleController.addItem
+  );
+
   router.put(
     '/:id',
     validations.updateSaleRequestValidations,
