@@ -51,6 +51,6 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
 
   public findById = async (id: string): Promise<ICategory | null> => {
     Logger.debug(`CategoryRepository - findById - execute [id: ${id}]`);
-    return await Category.findById(id);
+    return await Category.findById({ _id: id }).exec();
   };
 }

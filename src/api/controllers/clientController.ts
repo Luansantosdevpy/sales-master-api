@@ -5,8 +5,8 @@ import { validationResult } from 'express-validator';
 import Logger from '../../infrastructure/log/logger';
 import ValidationError from '../../application/exceptions/validationError';
 import ClientService from '../../application/services/clientService';
-import Client from '../../domain/models/Client';
 import NotFoundError from '../../application/exceptions/notFoundError';
+import IClient from '../../domain/interfaces/modelInterfaces/clientInterface';
 
 @injectable()
 export default class ClientController {
@@ -21,7 +21,7 @@ export default class ClientController {
     try {
       Logger.debug('ClientController - findAll - call clientService.findall');
 
-      const clients: Client[] | null = await this.clientService.findAll();
+      const clients: IClient[] | null = await this.clientService.findAll();
 
       return response.status(HttpStatusCode.Ok).json({ data: clients });
     } catch (error) {

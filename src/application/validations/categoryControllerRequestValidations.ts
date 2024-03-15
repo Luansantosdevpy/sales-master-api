@@ -5,7 +5,11 @@ const createCategoryRequestValidation: ValidationChain[] = [
     .notEmpty()
     .withMessage("Property 'name' cannot be empty.")
     .isString()
-    .isLength({ min: 3 })
+    .isLength({ min: 3 }),
+  check('description')
+    .notEmpty()
+    .withMessage("Property 'description' cannot be empty.")
+    .isString()
 ];
 
 const findCategoryRequestValidations: ValidationChain[] = [
@@ -25,9 +29,13 @@ const updateCategoryRequestValidations: ValidationChain[] = [
   check('category_name')
     .optional()
     .isString()
-    .withMessage("Property 'name' cannot be empty.")
+    .withMessage("Property 'category_name' cannot be empty.")
     .isLength({ min: 3 })
-    .withMessage("Property 'name' must be greater than 3 characters.")
+    .withMessage("Property 'category_name' must be greater than 3 characters."),
+  check('description')
+    .notEmpty()
+    .withMessage("Property 'description' cannot be empty.")
+    .isString()
 ];
 
 const deleteCategoryRequestValidations: ValidationChain[] = [

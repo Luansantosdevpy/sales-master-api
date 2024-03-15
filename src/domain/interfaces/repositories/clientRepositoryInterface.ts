@@ -1,10 +1,10 @@
-import Client from '../../models/Client';
+import IClient from '../modelInterfaces/clientInterface';
 
 export default interface ClientRepositoryInterface {
-  save(user: Client): Promise<Client>;
-  findByName(name: string): Promise<Client | null>;
-  findAll(): Promise<Client[] | null>;
-  findById(id: string): Promise<Client | null>;
+  save(user: IClient): Promise<IClient>;
+  findByName(name: string): Promise<IClient | null>;
+  findAll(): Promise<IClient[] | null>;
+  findById(id: string): Promise<IClient | null>;
   delete(id: string): Promise<void>;
-  update(id: string, client: Partial<Client>): Promise<void>;
+  update(id: string, client: Partial<IClient>): Promise<void>;
 }

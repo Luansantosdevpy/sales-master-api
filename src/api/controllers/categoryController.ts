@@ -7,6 +7,7 @@ import ValidationError from '../../application/exceptions/validationError';
 import NotFoundError from '../../application/exceptions/notFoundError';
 import CategoryService from '../../application/services/categoryService';
 import Category from '../../domain/models/Category';
+import ICategory from '../../domain/interfaces/modelInterfaces/categoryInterface';
 
 @injectable()
 export default class CategoryController {
@@ -23,7 +24,7 @@ export default class CategoryController {
         'CategoryController - findAll - call categoryService.findall'
       );
 
-      const categories: Category[] | null =
+      const categories: ICategory[] | null =
         await this.categoryService.findAll();
 
       return response.status(HttpStatusCode.Ok).json({ data: categories });
