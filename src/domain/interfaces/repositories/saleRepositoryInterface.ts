@@ -1,9 +1,13 @@
-import Sales from '../../models/Sales';
+import ISaleTempInterface from '../modelInterfaces/saleTempInterface';
+import ISale from '../modelInterfaces/salesInterface';
 
 export default interface SalesRepositoryInterface {
-  save(user: Sales): Promise<Sales>;
-  findAll(): Promise<Sales[] | null>;
-  findById(id: string): Promise<Sales | null>;
+  save(user: ISale): Promise<ISale>;
+  addItem(saleTempo: ISaleTempInterface): Promise<ISaleTempInterface>;
+  findAll(): Promise<ISale[] | null>;
+  findSaleByTableId(tableId: string): Promise<ISaleTempInterface[] | null>;
+  findById(id: string): Promise<ISale | null>;
   delete(id: string): Promise<void>;
-  update(id: string, sales: Partial<Sales>): Promise<void>;
+  deleteTempSale(tableId: string): Promise<void>;
+  update(id: string, ISale: Partial<ISale>): Promise<void>;
 }
