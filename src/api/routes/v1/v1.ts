@@ -7,6 +7,7 @@ import product from './product';
 import sale from './sale';
 import provider from './provider';
 import table from './table';
+import permission from './permission';
 
 export default async (): Promise<Router> => {
   const router = Router();
@@ -20,6 +21,7 @@ export default async (): Promise<Router> => {
   router.use('/sale', await sale());
   router.use('/provider', await provider());
   router.use('/table', await table());
+  router.use('/permission', await permission());
 
   return router;
 };
