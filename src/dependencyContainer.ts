@@ -24,6 +24,12 @@ import HealthCheckService from './application/services/healthCheckService';
 import TableRepositoryInterface from './domain/interfaces/repositories/tableRepositoryInterface';
 import TableRepository from './infrastructure/data/repositories/tableRepository';
 import TableService from './application/services/tableService';
+import PermissionRepositoryInterface from './domain/interfaces/repositories/permissionRepositoryInterface';
+import PermissionRepository from './infrastructure/data/repositories/permissionRepository';
+import PermissionService from './application/services/permissionService';
+import RoleRepositoryInterface from './domain/interfaces/repositories/roleRepositoryInterface';
+import RoleRepository from './infrastructure/data/repositories/roleRepository';
+import RoleService from './application/services/roleService';
 
 export default async (container: DependencyContainer): Promise<void> => {
   Logger.debug('Dependency container initializing...');
@@ -91,6 +97,28 @@ export default async (container: DependencyContainer): Promise<void> => {
 
   container.register<TableService>('TableService', {
     useClass: TableService
+  });
+
+  container.register<PermissionRepositoryInterface>(
+    'PermissionRepositoryInterface',
+    {
+      useClass: PermissionRepository
+    }
+  );
+
+  container.register<PermissionService>('PermissionService', {
+    useClass: PermissionService
+  });
+
+  container.register<RoleRepositoryInterface>(
+    'RoleRepositoryInterface',
+    {
+      useClass: RoleRepository
+    }
+  );
+
+  container.register<RoleService>('RoleService', {
+    useClass: RoleService
   });
 
   container.register<HealthCheckRepositoryInterface>(
