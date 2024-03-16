@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
 
 export default interface IRole extends Document {
-    name: String,
-    permissions: String[],
+    name: string,
+    permissions: string[],
     createdAt?: Date;
     updatedAt?: Date;
 }
