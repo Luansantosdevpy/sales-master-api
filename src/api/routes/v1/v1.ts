@@ -9,6 +9,7 @@ import provider from './provider';
 import table from './table';
 import permission from './permission';
 import role from './role';
+import stock from './stock';
 
 export default async (): Promise<Router> => {
   const router = Router();
@@ -24,6 +25,6 @@ export default async (): Promise<Router> => {
   router.use('/table', await table());
   router.use('/permission', await permission());
   router.use('/role', await role());
-
+  router.use('/stock', await stock());
   return router;
 };

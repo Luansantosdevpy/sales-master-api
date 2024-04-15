@@ -7,6 +7,7 @@ import ValidationError from '../../application/exceptions/validationError';
 import NotFoundError from '../../application/exceptions/notFoundError';
 import ProductService from '../../application/services/productService';
 import Product from '../../domain/models/Product';
+import IProduct from '../../domain/interfaces/modelInterfaces/productInterface';
 
 @injectable()
 export default class ProductController {
@@ -21,7 +22,7 @@ export default class ProductController {
     try {
       Logger.debug('ProductController - findAll - call productService.findall');
 
-      const products: Product[] | null = await this.productService.findAll();
+      const products: IProduct[] | null = await this.productService.findAll();
 
       return response.status(HttpStatusCode.Ok).json({ data: products });
     } catch (error) {
