@@ -37,15 +37,15 @@ const createClienteRequestValidation: ValidationChain[] = [
   check('province')
     .notEmpty()
     .withMessage("Property 'province' cannot be empty.")
-    .isNumeric(),
+    .isString(),
   check('city')
     .notEmpty()
     .withMessage("Property 'city' cannot be empty.")
-    .isNumeric(),
+    .isString(),
   check('uf')
     .notEmpty()
     .withMessage("Property 'uf' cannot be empty.")
-    .isNumeric()
+    .isString()
 ];
 
 const findClientRequestValidations: ValidationChain[] = [

@@ -30,6 +30,9 @@ import PermissionService from './application/services/permissionService';
 import RoleRepositoryInterface from './domain/interfaces/repositories/roleRepositoryInterface';
 import RoleRepository from './infrastructure/data/repositories/roleRepository';
 import RoleService from './application/services/roleService';
+import StockRepository from './infrastructure/data/repositories/stockRepository';
+import StockService from './application/services/stockService';
+import StockRepositoryInterface from './domain/interfaces/repositories/stockRepositoryInterface';
 
 export default async (container: DependencyContainer): Promise<void> => {
   Logger.debug('Dependency container initializing...');
@@ -119,6 +122,17 @@ export default async (container: DependencyContainer): Promise<void> => {
 
   container.register<RoleService>('RoleService', {
     useClass: RoleService
+  });
+
+  container.register<StockRepositoryInterface>(
+    'StockRepositoryInterface',
+    {
+      useClass: StockRepository
+    }
+  );
+
+  container.register<StockService>('StockService', {
+    useClass: StockService
   });
 
   container.register<HealthCheckRepositoryInterface>(
