@@ -13,17 +13,6 @@ class StockService {
   ) {}
 
   async create(stock: IStock): Promise<IStock> {
-    Logger.debug('StockService - create - validate products name');
-    const stockExists = await this.stockRepository.findByName(
-      stock.productsName
-    );
-
-    if (stockExists) {
-      throw new ValidationError(
-        `The name '${stock.productsName}' is already in use.`
-      );
-    }
-
     Logger.debug('StockService - create - call stockRepository.save');
     return this.stockRepository.save(stock);
   }
@@ -35,51 +24,59 @@ class StockService {
 
   public updateQuantityBySale = async (
     id: string,
-    qtd: number,
+    qtd: number
   ): Promise<void> => {
-    Logger.debug('StockService - updateQuantityBySale - call StockService.findById');
+    Logger.debug(
+      'StockService - updateQuantityBySale - call StockService.findById'
+    );
     const item = await this.findById(id);
 
-    if(!item){
-        throw new NotFoundError('Not Found item');
+    if (!item) {
+      throw new NotFoundError('Not Found item');
     }
-    const newQtd = await this.subtractionStock(item.quantity,qtd);
+    const newQtd = await this.subtractionStock(item.quantity, qtd);
 
-    Logger.debug('StockService - updateQuantityBySale - call stockRepository.updateQuantity');
+    Logger.debug(
+      'StockService - updateQuantityBySale - call stockRepository.updateQuantity'
+    );
     return this.stockRepository.updateQuantity(id, newQtd);
   };
 
   private subtractionStock = async (
     qtd1: number,
-    qtd2: number,
-  ): Promise <number> =>{
-       const sub: number = qtd1 - qtd2;
-       return sub;
-  }
+    qtd2: number
+  ): Promise<number> => {
+    const sub: number = qtd1 - qtd2;
+    return sub;
+  };
 
   public updateQuantityByInput = async (
     id: string,
-    qtd: number,
+    qtd: number
   ): Promise<void> => {
-    Logger.debug('StockService - updateQuantityByInput - call StockService.findById');
+    Logger.debug(
+      'StockService - updateQuantityByInput - call StockService.findById'
+    );
     const item = await this.findById(id);
 
-    if(!item){
-        throw new NotFoundError('Not Found item');
+    if (!item) {
+      throw new NotFoundError('Not Found item');
     }
-    const newQtd = await this.additionStock(item.quantity,qtd);
+    const newQtd = await this.additionStock(item.quantity, qtd);
 
-    Logger.debug('StockService - updateQuantityByInput - call stockRepository.updateQuantity');
+    Logger.debug(
+      'StockService - updateQuantityByInput - call stockRepository.updateQuantity'
+    );
     return this.stockRepository.updateQuantity(id, newQtd);
   };
 
   private additionStock = async (
     qtd1: number,
-    qtd2: number,
-  ): Promise <number> =>{
-       const sum: number = qtd1 + qtd2;
-       return sum;
-  }
+    qtd2: number
+  ): Promise<number> => {
+    const sum: number = qtd1 + qtd2;
+    return sum;
+  };
 
   public update = async (
     id: string,
@@ -93,12 +90,10 @@ class StockService {
   };
 
   public findById = async (id: string): Promise<IStock | null> => {
-    Logger.debug(
-      'StockService - findById - call stockRepository.findById'
-    );
+    Logger.debug('StockService - findById - call stockRepository.findById');
     const stock = this.stockRepository.findById(id);
     if (!stock) {
-      throw new NotFoundError('Not found category with this id');
+      throw new NotFoundError('Not found stock with this id');
     }
 
     return stock;
