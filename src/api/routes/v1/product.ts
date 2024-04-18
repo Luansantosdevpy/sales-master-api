@@ -1,36 +1,41 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
 import * as validations from '../../../application/validations/productControllerRequestValidations';
-import productController from '../../controllers/clientController';
 import ProductController from '../../controllers/productController';
 
 export default async (): Promise<Router> => {
   const router = Router();
-  const clientController = container.resolve(ProductController);
+  const productController = container.resolve(ProductController);
 
   router.post(
     '/create',
     validations.createProductRequestValidation,
-    clientController.create
+    productController.create
   );
 
-  router.get('/', clientController.findAll);
+  router.get('/', productController.findAll);
   router.get(
     '/:id',
     validations.findProductRequestValidations,
-    clientController.findById
+    productController.findById
+  );
+
+  router.get(
+    '/category/:categoryId',
+    validations.findProductRequestValidations,
+    productController.findAllByCategoryId
   );
 
   router.put(
     '/:id',
     validations.updateProductRequestValidations,
-    clientController.update
+    productController.update
   );
 
   router.delete(
     '/:id',
     validations.deleteProductRequestValidations,
-    clientController.delete
+    productController.delete
   );
 
   return router;
