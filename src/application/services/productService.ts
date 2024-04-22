@@ -73,16 +73,12 @@ class ProductService {
     return this.productRepository.findById(id);
   };
 
-  public findAllByCategoryId = async (
-    categoryId: string
-  ): Promise<IProduct[] | null> => {
-    Logger.debug(
-      'ProductService - findAllByCategoryId - call productRepository.findAllByCategoryId'
-    );
-
+  public findAllByCategoryId = async (categoryId: string): Promise< IProduct[] | null> => {
+    Logger.debug('ProductService - findAllByCategoryId - call productRepository.findAllByCategoryId')
+   
     const verifyCategoryId = await this.categoryService.findById(categoryId);
 
-    if (verifyCategoryId === null) {
+    if (!verifyCategoryId) {
       throw new ValidationError(
         `The category id '${categoryId}' don't exists.`
       );
