@@ -3,6 +3,7 @@ import Logger from '../../log/logger';
 import Product from '../../../domain/models/Product';
 import IProduct from '../../../domain/interfaces/modelInterfaces/productInterface';
 import ProductRepositoryInterface from '../../../domain/interfaces/repositories/productRepositoryInterface';
+import Category from '../../../domain/models/Category';
 
 @injectable()
 export default class ProductRepository implements ProductRepositoryInterface {
@@ -13,7 +14,7 @@ export default class ProductRepository implements ProductRepositoryInterface {
     const product = await Product.create({
       ...newProduct,
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     });
     return product;
   };
@@ -44,7 +45,7 @@ export default class ProductRepository implements ProductRepositoryInterface {
       { _id: id },
       {
         ...updatedProduct,
-        updatedAt: new Date(),
+        updatedAt: new Date()
       }
     );
   };
@@ -52,5 +53,14 @@ export default class ProductRepository implements ProductRepositoryInterface {
   public findById = async (id: string): Promise<IProduct | null> => {
     Logger.debug(`ProductRepository - findById - execute [id: ${id}]`);
     return await Product.findById({ _id: id }).exec();
+  };
+
+  public findAllByCategoryId = async (
+    categoryId: string
+  ): Promise<IProduct[] | null> => {
+    Logger.debug(
+      `ProductRepository - findAllByCategoryId - execute [id: ${categoryId}]`
+    );
+    return await Product.find({ categoryId: categoryId }).sort({ name: 1 });
   };
 }

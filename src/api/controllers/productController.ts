@@ -11,6 +11,7 @@ import IProduct from '../../domain/interfaces/modelInterfaces/productInterface';
 
 @injectable()
 export default class ProductController {
+  static findAllByCategoryId: any;
   constructor(
     @inject(ProductService)
     public readonly productService: ProductService
@@ -28,6 +29,38 @@ export default class ProductController {
     } catch (error) {
       Logger.error(`ProductController - findAll - error: ${error}`);
       return response
+        .status(HttpStatusCode.InternalServerError)
+        .json({ error: 'Internal Server Error.' });
+    }
+  };
+
+  public findAllByCategoryId = async (
+    req: Request,
+    res: Response
+  ): Promise<Response> => {
+    try {
+      Logger.debug(
+        'ProductController - findAllByCategoryId - call productService.findAllByCategoryId'
+      );
+      const { categoryId } = req.params;
+      const products: IProduct[] | null =
+        await this.productService.findAllByCategoryId(categoryId);
+
+      if (!products) {
+        return res
+          .status(HttpStatusCode.NotFound)
+          .json({ error: 'No products found for the provided category ID.' });
+      }
+      return res.status(HttpStatusCode.Ok).json({ data: products });
+    } catch (error) {
+      Logger.error(`ProductController - findAllByCategoryId - error: ${error}`);
+      if (error instanceof ValidationError) {
+        return res
+          .status(HttpStatusCode.UnprocessableEntity)
+          .json({ error: error.message });
+      }
+      Logger.error(`ProductController - findAllByCategoryId - error: ${error}`);
+      return res
         .status(HttpStatusCode.InternalServerError)
         .json({ error: 'Internal Server Error.' });
     }

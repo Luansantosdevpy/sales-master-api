@@ -4,12 +4,15 @@ import ValidationError from '../exceptions/validationError';
 import ProductRepositoryInterface from '../../domain/interfaces/repositories/productRepositoryInterface';
 import CategoryService from './categoryService';
 import IProduct from '../../domain/interfaces/modelInterfaces/productInterface';
+import CategoryRepositoryInterface from '../../domain/interfaces/repositories/categoryRepositoryInterface';
 
 @injectable()
 class ProductService {
   constructor(
     @inject('ProductRepositoryInterface')
     public readonly productRepository: ProductRepositoryInterface,
+    @inject('CategoryRepositoryInterface')
+    public readonly categoryRepository: CategoryRepositoryInterface,
     @inject(CategoryService)
     public readonly categoryService: CategoryService
   ) {}
@@ -68,6 +71,19 @@ class ProductService {
   public findById = async (id: string): Promise<IProduct | null> => {
     Logger.debug('ProductService - findById - call productRepository.findById');
     return this.productRepository.findById(id);
+  };
+
+  public findAllByCategoryId = async (categoryId: string): Promise< IProduct[] | null> => {
+    Logger.debug('ProductService - findAllByCategoryId - call productRepository.findAllByCategoryId')
+   
+    const verifyCategoryId = await this.categoryService.findById(categoryId);
+
+    if (!verifyCategoryId) {
+      throw new ValidationError(
+        `The category id '${categoryId}' don't exists.`
+      );
+    }
+    return this.productRepository.findAllByCategoryId(categoryId);
   };
 
   public delete = async (id: string): Promise<void> => {
