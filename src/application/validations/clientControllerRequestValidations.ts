@@ -22,10 +22,6 @@ const createClienteRequestValidation: ValidationChain[] = [
     .isString()
     .isLength({ min: 11 })
     .withMessage('phone number must be at exactly 11 characters long'),
-  // check('address')
-  //   //.notEmpty()
-  //   //.withMessage("Property 'address' cannot be empty.")
-  //   .isString(),
   check('postal_code')
     .notEmpty()
     .withMessage("Property 'postal_code' cannot be empty.")
@@ -34,18 +30,6 @@ const createClienteRequestValidation: ValidationChain[] = [
     .notEmpty()
     .withMessage("Property 'address_number' cannot be empty.")
     .isNumeric(),
-  // check('province')
-  //   //.notEmpty()
-  //   //.withMessage("Property 'province' cannot be empty.")
-  //   .isString(),
-  // check('city')
-  //   //.notEmpty()
-  //   //.withMessage("Property 'city' cannot be empty.")
-  //   .isString(),
-  // check('uf')
-  //   //.notEmpty()
-  //   //.withMessage("Property 'uf' cannot be empty.")
-  //   .isString()
 ];
 
 const findClientRequestValidations: ValidationChain[] = [
