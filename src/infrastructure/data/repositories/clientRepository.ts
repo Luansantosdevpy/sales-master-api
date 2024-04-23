@@ -10,12 +10,7 @@ export default class ClientRepository implements ClientRepositoryInterface {
     Logger.debug(
       `ClientRepository - create - execute [newClient: ${newClient}]`
     );
-    const client = await ClientModel.create({
-      ...newClient,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    return client;
+    return ClientModel.create(newClient);
   };
 
   public findByName = async (name: string): Promise<IClient | null> => {
@@ -44,7 +39,7 @@ export default class ClientRepository implements ClientRepositoryInterface {
       { _id: id },
       {
         ...updatedClient,
-        updatedAt: new Date(),
+        updatedAt: new Date()
       }
     );
   };

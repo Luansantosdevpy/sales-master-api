@@ -1,4 +1,4 @@
-import { DependencyContainer } from 'tsyringe';
+import { DependencyContainer, instanceCachingFactory } from 'tsyringe';
 import Logger from './infrastructure/log/logger';
 import UserRepository from './infrastructure/data/repositories/userRepository';
 import UserService from './application/services/userService';
@@ -33,6 +33,9 @@ import RoleService from './application/services/roleService';
 import StockRepository from './infrastructure/data/repositories/stockRepository';
 import StockService from './application/services/stockService';
 import StockRepositoryInterface from './domain/interfaces/repositories/stockRepositoryInterface';
+import axios, { Axios, AxiosStatic } from 'axios';
+import ViaCepMiddlewareInterface from './domain/interfaces/externals/viaCepMiddlewareInterface';
+import ViaCepMiddleware from './infrastructure/externals/viaCepMiddleware';
 
 export default async (container: DependencyContainer): Promise<void> => {
   Logger.debug('Dependency container initializing...');
@@ -91,12 +94,9 @@ export default async (container: DependencyContainer): Promise<void> => {
     useClass: ProviderService
   });
 
-  container.register<TableRepositoryInterface>(
-    'TableRepositoryInterface',
-    {
-      useClass: TableRepository
-    }
-  );
+  container.register<TableRepositoryInterface>('TableRepositoryInterface', {
+    useClass: TableRepository
+  });
 
   container.register<TableService>('TableService', {
     useClass: TableService
@@ -113,23 +113,17 @@ export default async (container: DependencyContainer): Promise<void> => {
     useClass: PermissionService
   });
 
-  container.register<RoleRepositoryInterface>(
-    'RoleRepositoryInterface',
-    {
-      useClass: RoleRepository
-    }
-  );
+  container.register<RoleRepositoryInterface>('RoleRepositoryInterface', {
+    useClass: RoleRepository
+  });
 
   container.register<RoleService>('RoleService', {
     useClass: RoleService
   });
 
-  container.register<StockRepositoryInterface>(
-    'StockRepositoryInterface',
-    {
-      useClass: StockRepository
-    }
-  );
+  container.register<StockRepositoryInterface>('StockRepositoryInterface', {
+    useClass: StockRepository
+  });
 
   container.register<StockService>('StockService', {
     useClass: StockService
@@ -146,5 +140,12 @@ export default async (container: DependencyContainer): Promise<void> => {
     useClass: HealthCheckService
   });
 
+  container.register<AxiosStatic>('Axios', {
+    useFactory: instanceCachingFactory(() => axios)
+  });
+
+  container.register<ViaCepMiddlewareInterface>('ViaCepMiddlewareInterface', {
+    useClass: ViaCepMiddleware
+  });
   Logger.debug('Dependency container initialized!');
 };
