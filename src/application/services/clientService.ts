@@ -3,12 +3,16 @@ import Logger from '../../infrastructure/log/logger';
 import ValidationError from '../exceptions/validationError';
 import ClientRepositoryInterface from '../../domain/interfaces/repositories/clientRepositoryInterface';
 import IClient from '../../domain/interfaces/modelInterfaces/clientInterface';
-
+import Client from '../../domain/models/Client';
+import ViaCepMiddlewareInterface from '../../domain/interfaces/externals/viaCepMiddlewareInterface';
+import { AxiosError } from 'axios';
 @injectable()
 class ClientService {
   constructor(
     @inject('ClientRepositoryInterface')
-    public readonly clientRepository: ClientRepositoryInterface
+    public readonly clientRepository: ClientRepositoryInterface,
+    @inject('ViaCepMiddlewareInterface')
+    public readonly viaCepMiddleware: ViaCepMiddlewareInterface
   ) {}
 
   async create(client: IClient): Promise<IClient> {
@@ -18,9 +22,24 @@ class ClientService {
     if (emailExists) {
       throw new ValidationError(`The name '${client.name}' is already in use.`);
     }
+    const cep = await this.viaCepMiddleware.findAddressByCep(
+      client.postal_code
+    );
+    if (!cep) {
+      throw new AxiosError();
+    }
 
     Logger.debug('clientService - create - call clientRepository.save');
-    return this.clientRepository.save(client);
+    const clientWithCep = new Client({
+      ...client,
+      address: cep.address,
+      postal_code: cep.postal_code,
+      complement: cep.complement,
+      province: cep.province,
+      city: cep.city,
+      uf: cep.uf
+    });
+    return this.clientRepository.save(clientWithCep);
   }
 
   public findAll = async (): Promise<IClient[] | null> => {
