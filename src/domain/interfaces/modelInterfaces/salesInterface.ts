@@ -1,4 +1,14 @@
 import { Document } from 'mongoose';
+export enum TypeOfSale {
+  PICKUP_ORDER = 'pickupOrder',
+  IN_STORE_ORDER = 'inStoreOrder',
+  TABLE_ORDER = 'tableOrder'
+}
+export enum TimeOfSale {
+  WAIT = 'wait',
+  PREPARE = 'prepare',
+  DONE = 'done'
+}
 export default interface ISale extends Document {
   date: Date;
   clientId: string;
@@ -6,12 +16,6 @@ export default interface ISale extends Document {
   itensSale: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  typeOfSale: {
-    type: String;
-    enum: ['pickupOrder', 'inStoreOrder', 'tableOrder'];
-  };
-  timeOfSale: {
-    type: String;
-    enum: ['wait', 'prepare', 'done'];
-  };
+  typeOfSale: TypeOfSale;
+  timeOfSale: TimeOfSale;
 }
