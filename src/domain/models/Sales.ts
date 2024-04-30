@@ -8,7 +8,15 @@ const saleSchema = new Schema(
     total: { type: Number },
     itensSale: { type: [String] },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now },
+    typeOfSale: {
+      type: String,
+      enum:['pickupOrder','inStoreOrder','tableOrder']
+    },
+    timeOfSale: {
+      type: String,
+      enum:['wait','prepare','done']
+    }
   },
   { collection: 'sales' }
 );

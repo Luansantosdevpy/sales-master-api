@@ -36,7 +36,7 @@ class SaleService {
     const total = await calculateTotalPrice(prices);
 
     sale.total = total;
-
+    sale.timeOfSale[0];
     Logger.debug('SaleService - create - call saleRepository.save');
     return this.saleRepository.save(sale);
   }
