@@ -33,9 +33,10 @@ import RoleService from './application/services/roleService';
 import StockRepository from './infrastructure/data/repositories/stockRepository';
 import StockService from './application/services/stockService';
 import StockRepositoryInterface from './domain/interfaces/repositories/stockRepositoryInterface';
-import axios, { Axios, AxiosStatic } from 'axios';
+import axios, { AxiosStatic } from 'axios';
 import ViaCepMiddlewareInterface from './domain/interfaces/externals/viaCepMiddlewareInterface';
 import ViaCepMiddleware from './infrastructure/externals/viaCepMiddleware';
+import DeliveryService from './application/services/deliveryService';
 
 export default async (container: DependencyContainer): Promise<void> => {
   Logger.debug('Dependency container initializing...');
@@ -127,6 +128,10 @@ export default async (container: DependencyContainer): Promise<void> => {
 
   container.register<StockService>('StockService', {
     useClass: StockService
+  });
+
+  container.register<DeliveryService>('DeliveryService', {
+    useClass: DeliveryService
   });
 
   container.register<HealthCheckRepositoryInterface>(
