@@ -3,7 +3,6 @@ import Logger from '../../log/logger';
 import Product from '../../../domain/models/Product';
 import IProduct from '../../../domain/interfaces/modelInterfaces/productInterface';
 import ProductRepositoryInterface from '../../../domain/interfaces/repositories/productRepositoryInterface';
-import Category from '../../../domain/models/Category';
 
 @injectable()
 export default class ProductRepository implements ProductRepositoryInterface {

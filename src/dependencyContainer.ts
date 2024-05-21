@@ -36,6 +36,9 @@ import StockRepositoryInterface from './domain/interfaces/repositories/stockRepo
 import axios, { AxiosStatic } from 'axios';
 import ViaCepMiddlewareInterface from './domain/interfaces/externals/viaCepMiddlewareInterface';
 import ViaCepMiddleware from './infrastructure/externals/viaCepMiddleware';
+import PaymentRepositoryInterface from './domain/interfaces/repositories/paymentRepositoryInterface';
+import PaymentRepository from './infrastructure/data/repositories/paymentRepository';
+import PaymentService from './application/services/paymentService';
 import DeliveryService from './application/services/deliveryService';
 
 export default async (container: DependencyContainer): Promise<void> => {
@@ -153,4 +156,12 @@ export default async (container: DependencyContainer): Promise<void> => {
     useClass: ViaCepMiddleware
   });
   Logger.debug('Dependency container initialized!');
+
+  container.register<PaymentRepositoryInterface>('PaymentRepositoryInterface', {
+    useClass: PaymentRepository
+  });
+
+  container.register<PaymentService>('PaymentService', {
+    useClass: PaymentService
+  });
 };
