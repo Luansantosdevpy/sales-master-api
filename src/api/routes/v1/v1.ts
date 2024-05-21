@@ -10,6 +10,7 @@ import table from './table';
 import permission from './permission';
 import role from './role';
 import stock from './stock';
+import payment from './payment';
 
 export default async (): Promise<Router> => {
   const router = Router();
@@ -26,5 +27,6 @@ export default async (): Promise<Router> => {
   router.use('/permission', await permission());
   router.use('/role', await role());
   router.use('/stock', await stock());
+  router.use('/payment', await payment());
   return router;
 };
