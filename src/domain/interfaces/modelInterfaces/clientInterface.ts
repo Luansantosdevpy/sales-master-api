@@ -1,4 +1,4 @@
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
 
 export default interface IClient extends Document {
   name: string;
@@ -7,8 +7,8 @@ export default interface IClient extends Document {
   cpf: string;
   address: string;
   postal_code: string;
-  address_number?: number;
-  complement: string;
+  address_number: number;
+  complement?: string;
   province: string;
   city: string;
   uf: string;

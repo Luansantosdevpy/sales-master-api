@@ -1,27 +1,60 @@
-import mongoose, { Schema } from 'mongoose';
-import IProvider from '../interfaces/modelInterfaces/providerInterface';
+import { prop, getModelForClass, modelOptions, Severity } from '@typegoose/typegoose';
 
-const providerSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    cnpj: { type: String, required: true },
-    corporate_name: { type: String, required: true },
-    fantasy_name: { type: String, required: true },
-    phone_number: { type: String, required: true },
-    postal_code: { type: String, required: true },
-    address: { type: String, required: true },
-    complement: { type: String },
-    address_number: { type: String, required: true },
-    province: { type: String, required: true },
-    city: { type: String, required: true },
-    uf: { type: String, required: true },
-    active: { type: Boolean, required: true },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+@modelOptions({
+  schemaOptions: {
+    collection: 'providers',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
   },
-  { collection: 'providers' }
-);
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class Provider {
+  @prop({ required: true })
+  public name!: string;
 
-const Provider = mongoose.model<IProvider>('Provider', providerSchema);
+  @prop({ required: true })
+  public cnpj!: string;
 
-export default Provider;
+  @prop({ required: true })
+  public corporate_name!: string;
+
+  @prop({ required: true })
+  public fantasy_name!: string;
+
+  @prop({ required: true })
+  public phone_number!: string;
+
+  @prop({ required: true })
+  public postal_code!: string;
+
+  @prop({ required: true })
+  public address!: string;
+
+  @prop()
+  public complement?: string;
+
+  @prop({ required: true })
+  public address_number!: string;
+
+  @prop({ required: true })
+  public province!: string;
+
+  @prop({ required: true })
+  public city!: string;
+
+  @prop({ required: true })
+  public uf!: string;
+
+  @prop({ required: true })
+  public active!: boolean;
+
+  @prop({ default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now })
+  public updatedAt?: Date;
+}
+
+const ProviderModel = getModelForClass(Provider);
+export default ProviderModel;

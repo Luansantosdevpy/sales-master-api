@@ -1,14 +1,30 @@
-import { Schema, model } from 'mongoose';
-import IPermission from '../interfaces/modelInterfaces/permissionInteface';
+import { prop, getModelForClass, modelOptions, Severity } from '@typegoose/typegoose';
 
-const permissionSchema: Schema = new Schema({
-  permissionName: { type: String, required: true },
-  entity: { type: String, required: true },
-  operation: { type: Array, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+@modelOptions({
+  schemaOptions: {
+    collection: 'permissions',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
+  },
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class Permission {
+  @prop({ required: true })
+  public permissionName!: string;
 
-const Permission = model<IPermission>('Permission', permissionSchema);
+  @prop({ required: true })
+  public entity!: string;
 
-export default Permission;
+  @prop({ required: true, type: () => [String] })
+  public operation!: string[];
+
+  @prop({ default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now })
+  public updatedAt?: Date;
+}
+
+const PermissionModel = getModelForClass(Permission);
+export default PermissionModel;

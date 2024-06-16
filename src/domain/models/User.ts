@@ -1,19 +1,36 @@
-import mongoose, { Schema } from 'mongoose';
-import IUser from '../interfaces/modelInterfaces/userInterface';
+import { prop, getModelForClass, modelOptions, Severity } from '@typegoose/typegoose';
 
-const userSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    cpf: { type: String, required: true },
-    password: { type: String, required: true },
-    confirm_password: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now, alias: 'created_at' },
-    updatedAt: { type: Date, default: Date.now, alias: 'updated_at' }
+@modelOptions({
+  schemaOptions: {
+    collection: 'users',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
   },
-  { collection: 'users' }
-);
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class User {
+  @prop({ required: true })
+  public name!: string;
 
-const User = mongoose.model<IUser>('User', userSchema);
+  @prop({ required: true })
+  public email!: string;
 
-export default User;
+  @prop({ required: true })
+  public cpf!: string;
+
+  @prop({ required: true })
+  public password!: string;
+
+  @prop({ required: true })
+  public confirm_password!: string;
+
+  @prop({ default: Date.now, alias: 'created_at' })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now, alias: 'updated_at' })
+  public updatedAt?: Date;
+}
+
+const UserModel = getModelForClass(User);
+export default UserModel;

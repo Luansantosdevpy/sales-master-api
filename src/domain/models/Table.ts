@@ -1,11 +1,12 @@
-import { Schema, model } from 'mongoose';
-import ITable from '../interfaces/modelInterfaces/tableInterface';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
-const TableSchema: Schema = new Schema({
-  table_number: { type: Number, required: true },
-  table_status: { type: Boolean, required: true }
-});
+export class Table {
+  @prop({ required: true })
+  public table_number!: number;
 
-const Table = model<ITable>('Table', TableSchema);
+  @prop({ required: true })
+  public table_status!: boolean;
+}
 
-export default Table;
+const TableModel = getModelForClass(Table);
+export default TableModel;
