@@ -1,13 +1,28 @@
-import { Schema, model } from 'mongoose';
-import IRole from '../interfaces/modelInterfaces/roleInterface';
+import { prop, getModelForClass, modelOptions, Ref, Severity } from '@typegoose/typegoose';
+import { Permission } from './Permission';
 
-const roleSchema: Schema = new Schema({
-  name: { type: String, required: true, unique: true },
-  permissions: [{ type: Array, ref: 'Permission' }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+@modelOptions({
+  schemaOptions: {
+    collection: 'roles',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
+  },
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class Role {
+  @prop({ required: true, unique: true })
+  public name!: string;
 
-const Role = model<IRole>('Role', roleSchema);
+  @prop({ ref: () => Permission })
+  public permissions?: Ref<Permission>[];
 
-export default Role;
+  @prop({ default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now })
+  public updatedAt?: Date;
+}
+
+const RoleModel = getModelForClass(Role);
+export default RoleModel;

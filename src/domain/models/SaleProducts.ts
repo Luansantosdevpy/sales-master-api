@@ -1,17 +1,32 @@
-import mongoose, { Schema } from 'mongoose';
-import ISaleTempInterface from '../interfaces/modelInterfaces/saleTempInterface';
+import { prop, getModelForClass, modelOptions, Ref, Severity } from '@typegoose/typegoose';
+import { Table } from './Table';
+import { Product } from './Product';
 
-const SaleTempSchema = new Schema(
-  {
-    tableId: { type: Schema.Types.ObjectId, ref: 'Table', required: true },
-    itensSale: { type: Array, ref: 'Product', required: true },
-    quantity: { type: Number },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+@modelOptions({
+  schemaOptions: {
+    collection: 'saleProducts',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
   },
-  { collection: 'saleProducts' }
-);
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class SaleTemp {
+  @prop({ required: true, ref: () => Table })
+  public tableId!: Ref<Table>;
 
-const SaleTemp = mongoose.model<ISaleTempInterface>('SaleTemp', SaleTempSchema);
+  @prop({ required: true, ref: () => Product })
+  public itensSale!: Ref<Product>[];
 
-export default SaleTemp;
+  @prop()
+  public quantity?: number;
+
+  @prop({ default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now })
+  public updatedAt?: Date;
+}
+
+const SaleTempModel = getModelForClass(SaleTemp);
+export default SaleTempModel;

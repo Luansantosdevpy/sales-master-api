@@ -1,18 +1,33 @@
-import mongoose, { Schema } from 'mongoose';
-import ICategory from '../interfaces/modelInterfaces/categoryInterface';
+import { prop, getModelForClass, modelOptions, Severity } from '@typegoose/typegoose';
 
-const categorySchema = new Schema(
-  {
-    category_name: { type: String, required: true },
-    description: { type: String, required: true },
-    category_image: { type: String },
-    category_icon: { type: String },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+@modelOptions({
+  schemaOptions: {
+    collection: 'categories',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
   },
-  { collection: 'categories' }
-);
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class Category {
+  @prop({ required: true })
+  public category_name!: string;
 
-const Category = mongoose.model<ICategory>('Category', categorySchema);
+  @prop({ required: true })
+  public description!: string;
 
-export default Category;
+  @prop()
+  public category_image?: string;
+
+  @prop()
+  public category_icon?: string;
+
+  @prop({ default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now })
+  public updatedAt?: Date;
+}
+
+const CategoryModel = getModelForClass(Category);
+export default CategoryModel;

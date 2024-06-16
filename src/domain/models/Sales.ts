@@ -1,26 +1,34 @@
-import mongoose, { Schema } from 'mongoose';
-import ISale from '../interfaces/modelInterfaces/salesInterface';
+import { prop, getModelForClass, modelOptions, Ref, Severity } from '@typegoose/typegoose';
+import { Client } from './Client';
 
-const saleSchema = new Schema(
-  {
-    date: { type: Date, required: true },
-    clientId: { type: Schema.Types.ObjectId, ref: 'Client' },
-    total: { type: Number },
-    itensSale: { type: [String] },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    typeOfSale: {
-      type: String,
-      enum:['pickupOrder','inStoreOrder','tableOrder']
-    },
-    timeOfSale: {
-      type: String,
-      enum:['wait','prepare','done']
-    }
+@modelOptions({
+  schemaOptions: {
+    collection: 'sales',
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
   },
-  { collection: 'sales' }
-);
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
+})
+export class Sale {
+  @prop({ required: true })
+  public date!: Date;
 
-const Sale = mongoose.model<ISale>('Sale', saleSchema);
+  @prop({ ref: () => Client })
+  public clientId?: Ref<Client>;
 
-export default Sale;
+  @prop()
+  public total?: number;
+
+  @prop({ type: () => [String] })
+  public itensSale?: string[];
+
+  @prop({ default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ default: Date.now })
+  public updatedAt?: Date;
+}
+
+const SaleModel = getModelForClass(Sale);
+export default SaleModel;
